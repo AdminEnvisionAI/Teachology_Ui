@@ -1,0 +1,21 @@
+/* OTPInput.css */
+.otp-input-container {
+  display: flex;
+  gap: 0.5rem; /* Adjust spacing between boxes */
+}
+
+.otp-input {
+  width: 3rem; /* Adjust width of input boxes */
+  height: 3rem; /* Adjust height of input boxes */
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+  /* Add any other styling you want (e.g., font, color, etc.) */
+}
+
+.otp-input:focus {
+  outline: none;
+  border-color: #007bff; /* Highlight on focus */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Optional focus effect */
+}

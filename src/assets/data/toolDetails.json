@@ -1,0 +1,200 @@
+{
+  "recommendedTools": [
+    {
+      "title": "Rubric Generator",
+      "content": "Have AI write a rubric for an assignment you are creating for your class in a table format.",
+      "image": "/images/rubric.png"
+    },
+    {
+      "title": "Writing Feedback",
+      "content": "Based on a custom criteria, have AI give areas of strength & areas for growth on student work.",
+      "image": "/images/writing.png"
+    },
+    {
+      "title": "Text Dependent Questions",
+      "content": "Generate text-dependent questions for students based on any text that you input.",
+      "image": "/images/text.png"
+    },
+    {
+      "title": "Summarize Text",
+      "content": "Summarize text for students based on any text that you input.",
+      "image": "/images/summarize.png"
+    },
+    {
+      "title": "Song Generator",
+      "content": "Write a custom song about any topic to the tune of the song of your choice!",
+      "image": "/images/song.png"
+    },
+    {
+      "title": "YouTube Video Summarizer",
+      "content": "Get a summary of a YouTube video in whatever length you choose.",
+      "image": "/images/youtube.png"
+    },
+    {
+      "title": "Text Translator",
+      "content": "Take any text and translate it into any language instantly.",
+      "image": "/images/translate.png"
+    }
+  ],
+  "formFields": {
+    "Summarize Text": [
+      {
+        "name": "lengthOfSummary",
+        "label": "Length of summary *",
+        "type": "text",
+        "placeholder": "1 paragraph, 1 page, 5 bullet points, 500 words"
+      },
+      {
+        "name": "originalText",
+        "label": "Original Text *",
+        "type": "textarea",
+        "placeholder": "Paste the original text here."
+      }
+    ],
+    "Rubric Generator": [
+      {
+        "name": "gradeLevel",
+        "label": "Grade Level *",
+        "type": "text",
+        "placeholder": "Enter grade level (e.g., 9th grade)"
+      },
+      {
+        "name": "pointScale",
+        "label": "Point Scale *",
+        "type": "number",
+        "placeholder": "Enter point scale (e.g., 10, 100)"
+      },
+      {
+        "name": "standard",
+        "label": "Standard / Objective *",
+        "type": "textarea",
+        "placeholder": "Enter standard or objective"
+      },
+      {
+        "name": "assignmentDescription",
+        "label": "Assignment Description *",
+        "type": "textarea",
+        "placeholder": "Describe the assignment"
+      },
+      {
+        "name": "additionalCustomization",
+        "label": "Additional Customization (Optional)",
+        "type": "textarea",
+        "placeholder": "Enter additional customization (optional)"
+      }
+    ],
+    "Writing Feedback": [
+      {
+        "name": "gradeLevel",
+        "label": "Grade Level *",
+        "type": "text",
+        "placeholder": "Enter grade level (e.g., 9th grade)"
+      },
+      {
+        "name": "assignmentDescription",
+        "label": "Describe the assignment *",
+        "type": "textarea",
+        "placeholder": "Describe the assignment"
+      },
+      {
+        "name": "feedbackType",
+        "label": "Type of Feedback or Rubric",
+        "type": "select",
+        "options": ["General Feedback", "Rubric Feedback"]
+      },
+      {
+        "name": "additionalInstructions",
+        "label": "Additional instructions for the type of feedback?",
+        "type": "textarea",
+        "placeholder": "Enter additional instructions"
+      },
+      {
+        "name": "writingContent",
+        "label": "Insert the writing you want feedback on:",
+        "type": "textarea",
+        "placeholder": "Insert the student's writing"
+      }
+    ],
+    "Text Dependent Questions": [
+      {
+        "name": "gradeLevel",
+        "label": "Grade Level *",
+        "type": "text",
+        "placeholder": "Enter grade level (e.g., 9th grade)"
+      },
+      {
+        "name": "numberOfQuestions",
+        "label": "Number of Questions *",
+        "type": "number",
+        "placeholder": "Enter number of questions"
+      },
+      {
+        "name": "questionType",
+        "label": "Question Types *",
+        "type": "select",
+        "options": ["Multiple Choice", "Short Answer", "True/False"]
+      },
+      {
+        "name": "textInput",
+        "label": "Text *",
+        "type": "textarea",
+        "placeholder": "Paste the text for questions"
+      }
+    ],
+    "Song Generator": [
+      {
+        "name": "songTopic",
+        "label": "Song Topic *",
+        "type": "text",
+        "placeholder": "A science teacher named Mr. Smith"
+      },
+      {
+        "name": "songDetails",
+        "label": "Details to Include in the Song: *",
+        "type": "textarea",
+        "placeholder": "He coaches the debate team, won teacher of the year, and loves the TV show, The Office."
+      },
+      {
+        "name": "songArtist",
+        "label": "Artist Name & Song Title: *",
+        "type": "text",
+        "placeholder": "Taylor Swift - Cruel Summer"
+      }
+    ],
+    "YouTube Video Summarizer": [
+      {
+        "name": "lengthOfSummary",
+        "label": "Length of summary: *",
+        "type": "text",
+        "placeholder": "1 paragraph, 1 page, 5 bullet points, 500 words"
+      },
+      {
+        "name": "youtubeURL",
+        "label": "YouTube URL: *",
+        "type": "text",
+        "placeholder": "Enter YouTube video URL here."
+      },
+      {
+        "name": "transcriptLanguage",
+        "label": "Transcript Language:",
+        "type": "select",
+        "options": ["en", "hi"],
+        "default": "en"
+      }
+    ],
+    "Text Translator": [
+      {
+        "name": "translateLanguage",
+        "label": "Language to translate to: *",
+        "type": "text",
+        "placeholder": "Spanish, Vietnamese, Mandarin, Tagalog"
+      },
+      {
+        "name": "translateText",
+        "label": "Original Text: *",
+        "type": "textarea",
+        "placeholder": "Paste the original text here."
+      }
+    ]
+  }
+}

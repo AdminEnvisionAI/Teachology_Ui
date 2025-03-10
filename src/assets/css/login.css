@@ -1,0 +1,142 @@
+/* login.css */
+
+/* Font & Color Variables */
+:root {
+  --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --heading-font: "Questrial", sans-serif;
+  --nav-font: "Noto Sans", sans-serif;
+}
+
+/* Global Colors */
+:root {
+  --background-color: #f0f4f8;
+  --default-color: #495057;
+  --heading-color: #304768;
+  --accent-color: #2962ff;
+  --surface-color: #ffffff;
+  --contrast-color: #ffffff;
+  --secondary-accent-color: #64b5f6;
+}
+
+/* General Styling */
+.login-container {
+  background-color: var(--background-color);
+  font-family: var(--default-font);
+  color: var(--default-color);
+}
+
+.card {
+  border-radius: 1rem;
+  background-color: var(--surface-color);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); /* Optional, for a subtle shadow */
+}
+
+.img-login {
+  border-radius: 1rem 0 0 1rem !important; /* override bootstrap*/
+  object-fit: cover;
+  height: 100%;
+}
+
+.logo-icon {
+  color: var(--accent-color);
+}
+
+.logo-text {
+  color: var(--heading-color);
+  font-family: var(--heading-font);
+}
+
+.login-title {
+  color: var(--heading-color);
+  letter-spacing: 1px;
+}
+
+/* Form Styling */
+.form-outline .form-control {
+  border-radius: 0.25rem;
+}
+
+.form-label {
+  color: var(--default-color);
+}
+
+/* Button Styling */
+.login-button {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+  width: 100%; /* Make the button full width */
+  border: none;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #1a45b8; /* Darker shade of accent color on hover */
+}
+
+/* Social Login Buttons */
+.btn-google {
+  background-color: #db4437;
+  color: var(--contrast-color);
+  width: 100%;
+  border: none;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-google:hover {
+  background-color: #bb352a;
+}
+
+.btn-facebook {
+  background-color: #3b5998;
+  color: var(--contrast-color);
+  width: 100%;
+  border: none;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-facebook:hover {
+  background-color: #2d4373;
+}
+
+/* Register Section */
+.register-text {
+  color: var(--default-color);
+}
+
+.register-link {
+  color: var(--accent-color);
+}
+/* Remove full height from section */
+.shorter-section {
+  height: auto !important; /* Override Bootstrap's vh-100 */
+  min-height: 75vh; /* Set a minimum height */
+  padding-top: 2rem; /* Adjust padding */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+/* In login.css or a similar CSS file */
+.btn-google {
+  background-color: #db4437;
+  color: white;
+}
+
+.btn-google:hover {
+  background-color: #c53929; /* Slightly darker red for hover */
+  color: white; /* Keep text white on hover */
+}
+
+.btn-facebook {
+  background-color: #3b5998;
+  color: white;
+}
+
+.btn-facebook:hover {
+  background-color: #304882; /* Slightly darker blue for hover */
+  color: white; /* Keep text white on hover */
+}

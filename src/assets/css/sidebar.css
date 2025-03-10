@@ -1,0 +1,155 @@
+/* Sidebar */
+.main-container {
+  /* Added a container class for the whole component */
+  display: flex;
+  min-height: 65vh; /* Full viewport height */
+}
+
+.sidebar {
+  background: #f0f4f8; /* Light blue-gray; modern, clean */
+  color: var(--default-color); /* Use variable for default color */
+  height: 100vh;
+  overflow-y: auto;
+  position: fixed; /* Keep sidebar fixed */
+  top: 0;
+  left: 0;
+  z-index: 10; /* Ensure it's above other content */
+  width: auto; /* Remove fixed width, let content determine */
+  transition: width 0.3s ease; /* Smooth transition */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+}
+.sidebar:hover {
+  width: 200px; /* Widen on hover */
+}
+
+.sidebar .top_section {
+  /* More specific selector */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 10px;
+}
+
+.sidebar .logo {
+  /* More specific selector */
+  font-size: 18px;
+  line-height: 0;
+  color: var(--heading-color); /* Use variable for heading color */
+}
+
+.sidebar .bars {
+  /* More specific selector */
+  width: 30px;
+  color: var(--default-color); /* Use variable for default color */
+  cursor: pointer;
+}
+
+.sidebar .hide {
+  /* More specific selector */
+  display: none;
+}
+
+.sidebar .search {
+  /* More specific selector */
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  height: 30px;
+  padding: 10px;
+}
+
+.sidebar .search input {
+  /* More specific selector */
+  border: none;
+  margin-left: 10px;
+  border-radius: 5px;
+  background: var(--surface-color); /* Use variable for surface color */
+  color: var(--default-color); /* Use variable for default color */
+}
+
+.sidebar .routes {
+  /* More specific selector */
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sidebar .link {
+  /* More specific selector */
+  display: flex;
+  color: var(--default-color); /* Use variable for default color */
+  gap: 10px;
+  padding: 5px 10px;
+  border-right: 4px solid transparent;
+  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  text-decoration: none; /*remove underline from NavLink */
+}
+
+.sidebar .link:hover {
+  /* More specific selector */
+  border-right: 4px solid var(--accent-color); /* Use variable for accent color */
+  background: rgba(
+    0,
+    0,
+    0,
+    0.1
+  ); /* Slightly darken on hover, adjust opacity as needed */
+  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+
+.sidebar .link.active {
+  /* More specific selector */
+  border-right: 4px solid var(--accent-color); /* Use variable for accent color */
+  background: rgba(
+    0,
+    0,
+    0,
+    0.1
+  ); /* Slightly darken when active, adjust opacity as needed */
+}
+
+.sidebar .link_text {
+  /* More specific selector */
+  white-space: nowrap;
+  font-size: 15px;
+  color: var(--default-color); /* Use variable for default color */
+}
+
+.sidebar .menu {
+  /* More specific selector */
+  display: flex;
+  color: var(--default-color); /* Use variable for default color */
+  padding: 5px 10px;
+  border-right: 4px solid transparent;
+  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  justify-content: space-between;
+}
+
+.sidebar .menu_item {
+  /* More specific selector */
+  display: flex;
+  gap: 10px;
+}
+
+.sidebar .menu_container {
+  /* More specific selector */
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .menu_container .link {
+  /* More specific selector */
+  padding-left: 20px;
+  border-bottom: rgba(255, 255, 255, 0.2) 0.5px solid;
+}
+
+/* Main Content */
+main {
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar:hover ~ main {
+  margin-left: 200px; /* Adjust based on open sidebar width */
+}
