@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import "../assets/css/chatbot.css"; // Import the CSS file
 
 const ChatSidebar = ({
   onNewChat,
@@ -17,17 +18,10 @@ const ChatSidebar = ({
       tabIndex="-1"
       id="offcanvasSidebar"
       aria-labelledby="offcanvasSidebarLabel"
-      style={{ width: "260px", backgroundColor: "var(--background-color)" }}
+      style={{ width: "260px" }}
     >
-      <div
-        className="offcanvas-header d-md-none"
-        style={{ backgroundColor: "var(--background-color)" }}
-      >
-        <h5
-          className="offcanvas-title"
-          id="offcanvasSidebarLabel"
-          style={{ color: "var(--heading-color)" }}
-        >
+      <div className="offcanvas-header d-md-none">
+        <h5 className="offcanvas-title" id="offcanvasSidebarLabel">
           Chat History
         </h5>
         <button
@@ -35,50 +29,26 @@ const ChatSidebar = ({
           className="btn-close text-reset"
           data-bs-dismiss="offcanvas"
           aria-label="Close"
-          style={{ backgroundColor: "var(--default-color)" }}
         ></button>
       </div>
       <div className="p-2">
         <button
-          className="btn btn-outline-primary w-100 d-flex align-items-center gap-3 p-3"
-          style={{
-            borderRadius: "0.375rem",
-            height: "44px",
-            color: "var(--accent-color)",
-            borderColor: "var(--accent-color)",
-          }}
+          className="btn btn-outline-primary w-100 d-flex align-items-center gap-3 p-3 new-chat-button"
           onClick={onNewChat}
         >
           <i className="fas fa-plus"></i>
-          <span style={{ fontSize: "14px" }}>New chat</span>
+          <span>New chat</span>
         </button>
       </div>
 
       <div className="flex-grow-1 overflow-y-auto px-2" style={{ height: "0" }}>
-        <div
-          style={{
-            fontSize: "12px",
-            color: "var(--default-color)",
-            padding: "8px 12px",
-          }}
-        >
-          Today
-        </div>
+        <div className="today-label">Today</div>
         {chatHistory.map((chat, index) => (
           <div
             key={index}
             className={`chat-item mb-1 rounded-1 p-3 d-flex align-items-center gap-3 ${
               index === selectedChatIndex ? "active-chat" : ""
             }`}
-            style={{
-              fontSize: "14px",
-              color: "var(--default-color)",
-              backgroundColor:
-                index === selectedChatIndex
-                  ? "rgba(41, 98, 255, 0.1)"
-                  : "transparent",
-              cursor: "pointer",
-            }}
             onClick={() => {
               onSelectChat(index);
             }}
@@ -89,31 +59,15 @@ const ChatSidebar = ({
         ))}
       </div>
 
-      <div
-        className="p-2 border-top"
-        style={{ borderColor: "var(--default-color)" }}
-      >
-        <button
-          className="btn w-100 mb-2 d-flex align-items-center gap-3 p-3 rounded-1"
-          style={{
-            background: "var(--accent-color)",
-            color: "var(--contrast-color)",
-            fontSize: "14px",
-            height: "44px",
-          }}
-        >
+      <div className="p-2 border-top">
+        <button className="btn w-100 mb-2 d-flex align-items-center gap-3 p-3 rounded-1 upgrade-button">
           <i className="fas fa-star"></i>
           <span>Upgrade to Plus</span>
         </button>
 
         <div className="dropdown">
           <button
-            className="btn btn-light w-100 d-flex align-items-center gap-3 p-3 rounded-1"
-            style={{
-              fontSize: "14px",
-              height: "44px",
-              color: "var(--default-color)",
-            }}
+            className="btn btn-light w-100 d-flex align-items-center gap-3 p-3 rounded-1 user-button"
             data-bs-toggle="dropdown"
           >
             <img
@@ -123,53 +77,27 @@ const ChatSidebar = ({
               width="24"
               height="24"
             />
-            <span
-              className="text-start"
-              style={{ color: "var(--default-color)" }}
-            >
-              John Doe
-            </span>
-            <i
-              className="fas fa-ellipsis"
-              style={{ color: "var(--default-color)" }}
-            ></i>
+            <span className="text-start">John Doe</span>
+            <i className="fas fa-ellipsis"></i>
           </button>
-          <ul
-            className="dropdown-menu dropdown-menu-dark"
-            style={{ backgroundColor: "var(--nav-dropdown-background-color)" }}
-          >
+          <ul className="dropdown-menu dropdown-menu-dark">
             <li>
-              <a
-                className="dropdown-item"
-                href="#"
-                style={{ color: "var(--nav-dropdown-color)" }}
-              >
+              <a className="dropdown-item" href="#">
                 <i className="fas fa-user me-2"></i>
                 Custom Instructions
               </a>
             </li>
             <li>
-              <a
-                className="dropdown-item"
-                href="#"
-                style={{ color: "var(--nav-dropdown-color)" }}
-              >
+              <a className="dropdown-item" href="#">
                 <i className="fas fa-cog me-2"></i>
                 Settings
               </a>
             </li>
             <li>
-              <hr
-                className="dropdown-divider"
-                style={{ borderColor: "var(--default-color)" }}
-              />
+              <hr className="dropdown-divider" />
             </li>
             <li>
-              <a
-                className="dropdown-item"
-                href="#"
-                style={{ color: "var(--nav-dropdown-color)" }}
-              >
+              <a className="dropdown-item" href="#">
                 <i className="fas fa-sign-out-alt me-2"></i>
                 Log out
               </a>
@@ -183,32 +111,11 @@ const ChatSidebar = ({
 
 const ChatIntro = () => {
   return (
-    <div
-      id="chatbot"
-      className="container mt-4"
-      style={{
-        color: "var(--default-color)",
-        backgroundColor: "var(--background-color)",
-      }}
-    >
+    <div id="chatbot" className="container mt-4">
       <p>
         Welcome! I'm your AI assistant. I can help you with a wide range of
         tasks. Here are just a few examples:
       </p>
-      <ul>
-        <li>
-          Write creative content like poems, code, scripts, musical pieces,
-          email, letters, etc.
-        </li>
-        <li>
-          Answer your questions in an informative way, even if they are open
-          ended, challenging, or strange.
-        </li>
-        <li>Summarize factual topics or create stories.</li>
-        <li>Translate languages.</li>
-        <li>And much more!</li>
-      </ul>
-      <p>Feel free to explore my capabilities. What can I do for you today?</p>
     </div>
   );
 };
@@ -225,34 +132,15 @@ const ChatDisplay = ({ messages }) => {
 
   return (
     <div
-      className="flex-grow-1 overflow-y-auto px-2 py-4"
+      className="flex-grow-1 overflow-y-auto px-2 py-4 chat-display"
       ref={chatContainerRef}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "var(--background-color)",
-        color: "var(--default-color)",
-      }}
     >
       {messages.map((message, index) => (
         <div
           key={index}
-          className={`mb-2 p-3 rounded-3 ${
-            message.sender === "user"
-              ? "bg-primary text-white align-self-end"
-              : "bg-light align-self-start"
+          className={`mb-2 p-3 rounded-3 message ${
+            message.sender === "user" ? "user-message" : "bot-message"
           }`}
-          style={{
-            maxWidth: "70%",
-            color:
-              message.sender === "user"
-                ? "var(--contrast-color)"
-                : "var(--default-color)",
-            backgroundColor:
-              message.sender === "user"
-                ? "var(--accent-color)"
-                : "var(--surface-color)",
-          }}
         >
           {message.text}
         </div>
@@ -292,24 +180,10 @@ const InputBox = ({ onSendMessage }) => {
   }, []);
 
   return (
-    <div
-      className="p-4 position-relative"
-      style={{
-        background:
-          "linear-gradient(180deg, rgba(53,55,64,0), var(--background-color) 58.85%)",
-        color: "var(--default-color)",
-      }}
-    >
-      <div className="mx-auto position-relative" style={{ maxWidth: "48rem" }}>
-        <div
-          className="d-flex align-items-center rounded-3 overflow-hidden"
-          style={{ background: "var(--surface-color)" }}
-        >
-          <button
-            className="btn"
-            onClick={handleFileClick}
-            style={{ minWidth: "40px", color: "var(--default-color)" }}
-          >
+    <div className="p-4 input-box">
+      <div className="mx-auto position-relative input-container">
+        <div className="d-flex align-items-center rounded-3 overflow-hidden input-area px-3">
+          <button className="btn file-button" onClick={handleFileClick}>
             <i className="fas fa-plus"></i>
             <input
               type="file"
@@ -319,24 +193,13 @@ const InputBox = ({ onSendMessage }) => {
               ref={fileInputRef}
             />
           </button>
-          <button
-            className="btn"
-            style={{ minWidth: "40px", color: "var(--default-color)" }}
-          >
+          <button className="btn search-button">
             <i className="fas fa-search"></i>
           </button>
           <input
             type="text"
-            className="form-control flex-grow-1 bg-transparent border-0 py-3"
+            className="form-control flex-grow-1 bg-transparent border-0 py-3 input-field"
             placeholder="Ask anything"
-            style={{
-              fontSize: "1rem",
-              color: "var(--default-color)",
-              paddingLeft: "1rem",
-              paddingRight: "1rem",
-              outline: "none !important",
-              boxShadow: "none !important",
-            }}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
@@ -347,17 +210,13 @@ const InputBox = ({ onSendMessage }) => {
             }}
           />
           <button
-            className="btn rounded-circle"
+            className="btn rounded-circle send-button"
             onClick={handleSendMessage}
-            style={{ color: "var(--default-color)" }}
           >
             <i className="fas fa-paper-plane"></i>
           </button>
         </div>
-        <div
-          className="text-center mt-2"
-          style={{ fontSize: "0.75rem", color: "var(--default-color)" }}
-        >
+        <div className="text-center mt-2 disclaimer">
           Free Research Preview. ChatGPT may produce inaccurate information
           about people, places, or facts.
         </div>
@@ -367,41 +226,10 @@ const InputBox = ({ onSendMessage }) => {
 };
 
 const ChatApp = () => {
-  const [chatHistory, setChatHistory] = useState([
-    {
-      title: "AI Poem Generator",
-      messages: [
-        { text: "Write a short poem about the ocean.", sender: "user" },
-        {
-          text: "Sure, here's a short poem:\nThe ocean vast, a sapphire dream,\nWith waves that crash and softly gleam.\nA world of wonder, deep and blue,\nA timeless dance, forever true.",
-          sender: "bot",
-        },
-      ],
-    },
-    {
-      title: "Summarize Quantum Physics",
-      messages: [
-        {
-          text: "Can you summarize quantum physics in a few sentences?",
-          sender: "user",
-        },
-        {
-          text: "Quantum physics explores the bizarre behavior of matter and energy at the atomic and subatomic levels. It reveals that energy is quantized, meaning it exists in discrete packets, and that particles can exhibit wave-like properties and vice-versa (wave-particle duality).  Key concepts include superposition (existing in multiple states at once) and entanglement (instantaneous correlation between particles regardless of distance). Quantum physics is the foundation for many modern technologies, but its underlying principles remain a subject of ongoing research and philosophical debate.",
-          sender: "bot",
-        },
-      ],
-    },
-    {
-      title: "Translate to Spanish",
-      messages: [
-        { text: "Translate 'Hello, how are you?' to Spanish.", sender: "user" },
-        { text: "'Hola, ¿cómo estás?'", sender: "bot" },
-      ],
-    },
-  ]);
+  const [chatHistory, setChatHistory] = useState([]); // Empty chat history
+  const [selectedChatIndex, setSelectedChatIndex] = useState(null); // No chat selected initially
+  const [messages, setMessages] = useState([]); // Empty messages
 
-  const [selectedChatIndex, setSelectedChatIndex] = useState(0);
-  const [messages, setMessages] = useState(chatHistory[0].messages);
   const [isMobileView, setIsMobileView] = useState(false);
 
   useEffect(() => {
@@ -448,6 +276,9 @@ const ChatApp = () => {
           text: `(Dummy Response) You said: ${messageText}.  Here is a slightly longer response to test the UI and make sure everything wraps correctly and scrolls as expected. This is all just placeholder text.`,
           sender: "bot",
         };
+        //COMMENT OUT OR REMOVE THIS ENTIRE setTimeout BLOCK ONCE YOU HAVE REAL API CALLS
+        //AND REPLACE WITH YOUR ACTUAL API CALL AND RESPONSE HANDLER
+
         const finalMessages = [...updatedMessages, botResponse];
 
         setMessages(finalMessages);
@@ -463,27 +294,15 @@ const ChatApp = () => {
   };
 
   return (
-    <div
-      className="d-flex min-vh-100"
-      style={{ backgroundColor: "var(--background-color)" }}
-    >
+    <div className="d-flex min-vh-100 chat-app">
       {/* Button to toggle the offcanvas sidebar (only in mobile view) */}
       {isMobileView && (
         <button
-          className="btn btn-dark d-md-none"
+          className="btn btn-dark d-md-none mobile-sidebar-toggle"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasSidebar"
           aria-controls="offcanvasSidebar"
-          style={{
-            position: "absolute",
-            top: "10px",
-            left: "10px",
-            zIndex: 1000,
-            backgroundColor: "var(--accent-color)",
-            borderColor: "var(--accent-color)",
-            color: "var(--contrast-color)",
-          }}
         >
           <i className="fas fa-bars"></i>
         </button>
@@ -496,13 +315,13 @@ const ChatApp = () => {
         selectedChatIndex={selectedChatIndex}
         isMobileView={isMobileView}
       />
-      <main className="flex-grow-1 d-flex flex-column position-relative">
+      <main className="flex-grow-1 d-flex flex-column position-relative main-content">
         {selectedChatIndex === null ? (
-          <div className="flex-grow-1 overflow-y-auto px-2 py-4">
-            <h1
-              className="text-center mb-5 fw-semibold"
-              style={{ fontSize: "2rem", color: "var(--heading-color)" }}
-            >
+          <div
+            className="flex-grow-1 overflow-y-auto px-2 py-4"
+            style={{ borderLeft: "solid 0.1px #cfd2d9" }}
+          >
+            <h1 className="text-center mb-5 fw-semibold chatgpt-title">
               ChatGPT
             </h1>
             <ChatIntro />
@@ -520,7 +339,7 @@ const ChatApp = () => {
 
 function Chatbot() {
   return (
-    <div style={{ backgroundColor: "var(--background-color)" }}>
+    <div className="chatbot-container">
       <ChatApp />
     </div>
   );

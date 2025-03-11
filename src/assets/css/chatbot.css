@@ -1,0 +1,172 @@
+/* General Styles */
+:root {
+  --background-color: #343541;
+  --surface-color: #40414f;
+  --accent-color: #2962ff;
+  --contrast-color: #fff;
+  --default-color: #d1d5db;
+  --heading-color: #fff;
+  --nav-dropdown-background-color: #202123;
+  --nav-dropdown-color: #fff;
+}
+
+/* Chat Sidebar Styles */
+#offcanvasSidebar {
+  background-color: var(--background-color);
+  width: 260px;
+}
+
+#offcanvasSidebar .offcanvas-header {
+  background-color: var(--background-color);
+}
+
+#offcanvasSidebar .offcanvas-title {
+  color: var(--heading-color);
+}
+
+#offcanvasSidebar .btn-close {
+  background-color: var(--default-color);
+}
+
+.new-chat-button {
+  border-radius: 0.375rem;
+  height: 44px;
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+  font-size: 14px;
+}
+
+.today-label {
+  font-size: 12px;
+  color: var(--default-color);
+  padding: 8px 12px;
+}
+
+.chat-item {
+  font-size: 14px;
+  color: var(--default-color);
+  cursor: pointer;
+}
+
+.chat-item.active-chat {
+  background-color: rgba(41, 98, 255, 0.1);
+}
+
+.upgrade-button {
+  background: var(--accent-color);
+  color: var(--contrast-color);
+  font-size: 14px;
+  height: 44px;
+}
+
+.user-button {
+  font-size: 14px;
+  height: 44px;
+  color: var(--default-color);
+}
+
+/* Chat Intro Styles */
+#chatbot {
+  color: var(--default-color);
+  background-color: var(--background-color);
+}
+
+/* Chat Display Styles */
+.chat-display {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
+  color: var(--default-color);
+  height: calc(100vh - 160px);
+}
+
+.message {
+  max-width: 70%;
+}
+
+.message.user-message {
+  align-self: flex-end;
+  color: var(--contrast-color);
+  background-color: var(--accent-color);
+}
+
+.message.bot-message {
+  align-self: flex-start;
+  color: var(--default-color);
+  background-color: var(--surface-color);
+}
+
+/* Input Box Styles */
+.input-box {
+  background: linear-gradient(
+    180deg,
+    rgba(53, 55, 64, 0),
+    var(--background-color) 58.85%
+  );
+  color: var(--default-color);
+}
+
+.input-container {
+  max-width: 48rem;
+}
+
+.input-area {
+  background: var(--surface-color);
+}
+
+.file-button {
+  min-width: 40px;
+  color: var(--default-color);
+}
+
+.search-button {
+  min-width: 40px;
+  color: var(--default-color);
+}
+
+.input-field {
+  font-size: 1rem;
+  color: var(--default-color);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.send-button {
+  color: var(--default-color);
+}
+
+.disclaimer {
+  font-size: 0.75rem;
+  color: var(--default-color);
+}
+
+/* Chat App Styles */
+.chat-app {
+  background-color: var(--background-color);
+}
+
+.mobile-sidebar-toggle {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+.main-content {
+  position: relative;
+}
+
+.chatgpt-title {
+  font-size: 2rem;
+  color: var(--heading-color);
+}
+
+/* Chatbot Container Styles */
+.chatbot-container {
+  background-color: var(--background-color);
+}
