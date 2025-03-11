@@ -1,3 +1,10 @@
-.chat-item.active-chat {
-  background-color: #4a4b57; /* Or any color you like */
+/* Add this CSS to your stylesheet (e.g., index.css or App.css) */
+.new-chat-button {
+  color: black !important; /* Force text to be black */
+}
+
+.new-chat-button:hover {
+  background-color: transparent !important; /* Remove background hover effect */
+  border-color: var(--accent-color) !important; /* Keep the border the same */
+  color: black !important; /* Keep the text black on hover */
 }

@@ -1,15 +1,46 @@
 // Tools.jsx
 import React, { useState, useEffect } from "react";
 import "../assets/css/tools.css"; // Import the CSS file
-import toolDetails from "../assets/data/toolDetails.json"; // Import the JSON data
 import { useNavigate } from "react-router-dom";
+
 const Tools = () => {
-  const [tools, setTools] = useState([]);
+  const [tools, setTools] = useState([
+    {
+      title: "Tool 1",
+      content: "Description of Tool 1",
+      image: "https://picsum.photos/400/300?random=1", // Dummy internet image
+    },
+    {
+      title: "Tool 2",
+      content: "Description of Tool 2",
+      image: "https://picsum.photos/400/300?random=2", // Dummy internet image
+    },
+    {
+      title: "Tool 3",
+      content: "Description of Tool 3",
+      image: "https://picsum.photos/400/300?random=3", // Dummy internet image
+    },
+    {
+      title: "Tool 4",
+      content: "Description of Tool 4",
+      image: "https://picsum.photos/400/300?random=4", // Dummy internet image
+    },
+    {
+      title: "Tool 5",
+      content: "Description of Tool 5",
+      image: "https://picsum.photos/400/300?random=5", // Dummy internet image
+    },
+    {
+      title: "Tool 6",
+      content: "Description of Tool 6",
+      image: "https://picsum.photos/400/300?random=6", // Dummy internet image
+    },
+  ]);
   const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     // Load tools from the JSON data on component mount
-    setTools(toolDetails.recommendedTools);
+    // setTools(toolDetails.recommendedTools); // Removed JSON loading
   }, []);
 
   const handleCardClick = (toolTitle) => {
@@ -36,10 +67,21 @@ const Tools = () => {
       <div className="row">
         {tools.map((tool, index) => {
           const color = getColorForIndex(index);
+          const backgroundImage = tool.image
+            ? `url(${tool.image})`
+            : null; // Use image directly from URL
 
           return (
             <div className="col-lg-4" key={index}>
-              <div className="card card-margin">
+              <div
+                className="card card-margin"
+                style={{
+                  backgroundImage: backgroundImage,
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                  ...(backgroundImage ? {} : { backgroundColor: "#f0f0f0" }), // Default background color if no image
+                }}
+              >
                 <div className="card-header no-border">
                   <h5 className="card-title">{tool.title}</h5>
                 </div>

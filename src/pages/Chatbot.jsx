@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const ChatSidebar = ({
   onNewChat,
@@ -40,11 +44,11 @@ const ChatSidebar = ({
       </div>
       <div className="p-2">
         <button
-          className="btn btn-outline-primary w-100 d-flex align-items-center gap-3 p-3"
+          className="btn btn-outline-primary w-100 d-flex align-items-center gap-3 p-3 new-chat-button" // Added a custom class
           style={{
             borderRadius: "0.375rem",
             height: "44px",
-            color: "var(--accent-color)",
+            //color: "var(--accent-color)",  // Removed color style here
             borderColor: "var(--accent-color)",
           }}
           onClick={onNewChat}
@@ -216,11 +220,27 @@ const ChatDisplay = ({ messages }) => {
   const chatContainerRef = useRef(null);
 
   useEffect(() => {
+    console.log("ChatDisplay useEffect triggered, messages:", messages); // Debugging
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
+
+  console.log("ChatDisplay messages:", messages);  // Debugging
+
+  const renderers = {
+    code: ({language, value}) => {
+      return (
+        <SyntaxHighlighter
+          style={dracula}
+          language={language}
+          children={value}
+          className="code-block"
+        />
+      );
+    }
+  };
 
   return (
     <div
@@ -233,7 +253,7 @@ const ChatDisplay = ({ messages }) => {
         color: "var(--default-color)",
       }}
     >
-      {messages.map((message, index) => (
+      {messages && messages.map((message, index) => ( // Ensure messages is not null/undefined
         <div
           key={index}
           className={`mb-2 p-3 rounded-3 ${
@@ -253,7 +273,12 @@ const ChatDisplay = ({ messages }) => {
                 : "var(--surface-color)",
           }}
         >
-          {message.text}
+         <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={renderers}
+          >
+            {message.text}
+          </ReactMarkdown>
         </div>
       ))}
     </div>
@@ -347,8 +372,7 @@ const ChatApp = () => {
       messages: [
         {
           text: "Can you summarize quantum physics in a few sentences?",
-          sender: "user",
-        },
+          sender: "user" },
         {
           text: "Quantum physics explores the bizarre behavior of matter and energy at the atomic and subatomic levels. It reveals that energy is quantized, meaning it exists in discrete packets, and that particles can exhibit wave-like properties and vice-versa (wave-particle duality).  Key concepts include superposition (existing in multiple states at once) and entanglement (instantaneous correlation between particles regardless of distance). Quantum physics is the foundation for many modern technologies, but its underlying principles remain a subject of ongoing research and philosophical debate.",
           sender: "bot",
@@ -368,6 +392,8 @@ const ChatApp = () => {
   const [messages, setMessages] = useState(chatHistory[0].messages);
   const [isMobileView, setIsMobileView] = useState(false);
 
+  const backendURL = "http://localhost:8000"; // Replace with your backend URL
+
   useEffect(() => {
     const checkIsMobileView = () => {
       setIsMobileView(window.innerWidth < 768);
@@ -381,6 +407,16 @@ const ChatApp = () => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log("ChatApp useEffect - selectedChatIndex changed:", selectedChatIndex);
+    if (selectedChatIndex !== null && chatHistory[selectedChatIndex]) {
+      setMessages(chatHistory[selectedChatIndex].messages || []);
+    } else {
+      setMessages([]); // Or handle the null case appropriately
+    }
+  }, [selectedChatIndex, chatHistory]); // Added chatHistory as dependency
+    console.log("Chat History Length", chatHistory.length)
+
   const handleNewChat = () => {
     const newChat = { title: "New Chat", messages: [] };
     setChatHistory([...chatHistory, newChat]);
@@ -390,10 +426,10 @@ const ChatApp = () => {
 
   const handleSelectChat = (index) => {
     setSelectedChatIndex(index);
-    setMessages(chatHistory[index].messages || []);
+    console.log("Selected Chat Index", index)
   };
 
-  const handleSendMessage = (messageText) => {
+  const handleSendMessage = async (messageText) => {
     if (selectedChatIndex !== null) {
       const newMessage = { text: messageText, sender: "user" };
       const updatedMessages = [...messages, newMessage];
@@ -401,30 +437,67 @@ const ChatApp = () => {
       setMessages(updatedMessages);
 
       const updatedChatHistory = [...chatHistory];
+      const currentChat = updatedChatHistory[selectedChatIndex];
+
+      //Update Chat Title (Basic, improves further with API)
+      if (currentChat.title === "New Chat" && updatedMessages.length > 0) {
+        currentChat.title = messageText.substring(0, 20) + "...";
+      }
+
       updatedChatHistory[selectedChatIndex] = {
-        ...updatedChatHistory[selectedChatIndex],
+        ...currentChat,
         messages: updatedMessages,
       };
       setChatHistory(updatedChatHistory);
 
-      setTimeout(() => {
-        const botResponse = {
-          text: `(Dummy Response) You said: ${messageText}.  Here is a slightly longer response to test the UI and make sure everything wraps correctly and scrolls as expected. This is all just placeholder text.`,
-          sender: "bot",
-        };
+      try {
+        console.log("Sending message to backend:", messageText); //Debugging
+        const response = await fetch(`${backendURL}/chat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: messageText }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Backend data:", data) // Debugging
+        const botResponse = { text: data.response, sender: "bot" };
         const finalMessages = [...updatedMessages, botResponse];
 
         setMessages(finalMessages);
 
         const finalChatHistory = [...chatHistory];
         finalChatHistory[selectedChatIndex] = {
-          ...finalChatHistory[selectedChatIndex],
+          ...currentChat,
           messages: finalMessages,
         };
         setChatHistory(finalChatHistory);
-      }, 500);
+      } catch (error) {
+        console.error("Error calling backend:", error);
+        // Handle error appropriately (e.g., display an error message to the user)
+        const errorBotResponse = {
+          text: "Sorry, I'm having trouble connecting to the server. Please try again later.",
+          sender: "bot",
+        };
+        const finalMessages = [...updatedMessages, errorBotResponse];
+        setMessages(finalMessages);
+
+        const finalChatHistory = [...chatHistory];
+        finalChatHistory[selectedChatIndex] = {
+          ...currentChat,
+          messages: finalMessages,
+        };
+        setChatHistory(finalChatHistory);
+      }
     }
   };
+
+  console.log("Initial state: chatHistory:", chatHistory, "selectedChatIndex:", selectedChatIndex, "messages:", messages);
 
   return (
     <div
