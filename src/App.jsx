@@ -1,10 +1,12 @@
 // App.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   Navigate,
+  useNavigate,
+  useLocation,
 } from "react-router-dom";
 import "aos/dist/aos.css";
 import "glightbox/dist/css/glightbox.min.css";
@@ -35,6 +37,41 @@ import Home from "./pages/Home";
 import Tools from "./pages/Tools";
 import ToolDetail from "./pages/ToolDetail"; // Import ToolDetail  (Assuming you've created this)
 
+// Create Authentication Context
+const AuthContext = createContext();
+
+function useAuth() {
+  return useContext(AuthContext);
+}
+
+function AuthProvider({ children }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
+    return storedIsLoggedIn === "true" || false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("isLoggedIn", isLoggedIn.toString());
+  }, [isLoggedIn]);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+  };
+
+  const value = {
+    isLoggedIn,
+    onLogin: handleLogin,
+    onLogout: handleLogout,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
 function Landing() {
   return (
     <>
@@ -47,16 +84,20 @@ function Landing() {
   );
 }
 
+// Protected Route Component
+function RequireAuth({ children }) {
+  const { isLoggedIn } = useAuth();
+  const location = useLocation();
+
+  if (!isLoggedIn) {
+    // Redirect to the login page
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+}
+
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
-    return storedIsLoggedIn === "true" || false;
-  });
-
-  useEffect(() => {
-    localStorage.setItem("isLoggedIn", isLoggedIn.toString());
-  }, [isLoggedIn]);
-
   useEffect(() => {
     AOS.init({
       duration: 800,
@@ -73,23 +114,25 @@ function App() {
     };
   }, []);
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    setIsLoggedIn(false);
-  };
-
   return (
     <Router>
-      <div className="App">
-        <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
-        <Routes>
-          <Route
-            path="/chatbot"
-            element={
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </Router>
+  );
+}
+
+function AppContent() {
+  const { isLoggedIn, onLogout } = useAuth();
+  return (
+    <div className="App">
+      <Header isLoggedIn={isLoggedIn} onLogout={onLogout} />
+      <Routes>
+        <Route
+          path="/chatbot"
+          element={
+            <RequireAuth>
               <>
                 <Home />
                 <ChatBot />
@@ -101,11 +144,13 @@ function App() {
                   <i className="bi bi-arrow-up-short"></i>
                 </a>
               </>
-            }
-          />
-          <Route
-            path="/outputhistory"
-            element={
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/outputhistory"
+          element={
+            <RequireAuth>
               <>
                 <Home />
                 <OutputHistory />
@@ -119,12 +164,14 @@ function App() {
                   <i className="bi bi-arrow-up-short"></i>
                 </a>
               </>
-            }
-          />
+            </RequireAuth>
+          }
+        />
 
-          <Route
-            path="/tool/:toolTitle" // Route for individual tool details
-            element={
+        <Route
+          path="/tool/:toolTitle" // Route for individual tool details
+          element={
+            <RequireAuth>
               <>
                 <Home /> {/* Or any layout you want */}
                 <ToolDetail /> {/* Render the ToolDetail component */}
@@ -137,12 +184,14 @@ function App() {
                   <i className="bi bi-arrow-up-short"></i>
                 </a>
               </>
-            }
-          />
+            </RequireAuth>
+          }
+        />
 
-          <Route
-            path="/tools" // Route for the main Tools page
-            element={
+        <Route
+          path="/tools" // Route for the main Tools page
+          element={
+            <RequireAuth>
               <>
                 <Home />
                 <Tools />
@@ -155,62 +204,24 @@ function App() {
                   <i className="bi bi-arrow-up-short"></i>
                 </a>
               </>
-            }
-          />
+            </RequireAuth>
+          }
+        />
 
-          {/* Main content route - moved to be after /tools and /tool/:toolTitle route */}
-          <Route
-            path="*"
-            element={
-              <>
-                <MainContent isLoggedIn={isLoggedIn} />
-                <Footer />
-                <a
-                  href="#"
-                  id="scroll-top"
-                  className="scroll-top d-flex align-items-center justify-content-center"
-                >
-                  <i className="bi bi-arrow-up-short"></i>
-                </a>
-              </>
-            }
-          />
-        </Routes>
-      </div>
-    </Router>
-  );
-}
-
-function MainContent({ isLoggedIn }) {
-  return (
-    <main className="main">
-      <Routes>
+        {/* Authentication Routes */}
         <Route
           path="/login"
-          element={isLoggedIn ? <Navigate to="/" /> : <Login />}
+          element={isLoggedIn ? <Navigate to="/" replace /> : <Login />}
         />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/otp-reset" element={<OTPReset />} />
         <Route path="/otp-email" element={<OTPEmail />} />
-
-        {/* Home route with Tools */}
         <Route
           path="/"
           element={
             <>
               <Landing />
-              <Tools />
-            </>
-          }
-        />
-
-        {/*Home route with Tools  */}
-        <Route
-          path="/home"
-          element={
-            <>
-              <Home />
               <Tools />
             </>
           }
@@ -224,7 +235,44 @@ function MainContent({ isLoggedIn }) {
         <Route path="/faq" element={<Faq />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/portfolio-details/:id" element={<PortfolioDetails />} />
+
+        {/* Protected Main Content Routes */}
+        <Route
+          path="/*"
+          element={
+            <RequireAuth>
+              <MainContent />
+            </RequireAuth>
+          }
+        />
       </Routes>
+    </div>
+  );
+}
+
+function MainContent() {
+  return (
+    <main className="main">
+      <Routes>
+        {/*Home route with Tools  */}
+        <Route
+          path="/home"
+          element={
+            <>
+              <Home />
+              <Tools />
+            </>
+          }
+        />
+      </Routes>
+      <Footer />
+      <a
+        href="#"
+        id="scroll-top"
+        className="scroll-top d-flex align-items-center justify-content-center"
+      >
+        <i className="bi bi-arrow-up-short"></i>
+      </a>
     </main>
   );
 }
