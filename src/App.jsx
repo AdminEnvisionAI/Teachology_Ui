@@ -33,7 +33,7 @@ import ChatBot from "./pages/Chatbot";
 import OutputHistory from "./pages/OutputHistory";
 import Home from "./pages/Home";
 import Tools from "./pages/Tools";
-import ToolDetail from "./pages/ToolDetail"; // Import ToolDetail
+import ToolDetail from "./pages/ToolDetail"; // Import ToolDetail  (Assuming you've created this)
 
 function Landing() {
   return (
@@ -87,20 +87,12 @@ function App() {
       <div className="App">
         <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
         <Routes>
-          <Route path="/chatbot" element={<ChatBot />} />
-
-          {/* Make Tools a child of the main routes, so it always has the header */}
           <Route
-            path="/tools/*" // Use a wildcard for child routes
+            path="/chatbot"
             element={
               <>
-                <Routes>
-                  <Route index element={<Tools />} />{" "}
-                  {/* Render Tools when path is just /tools */}
-                  <Route path=":toolTitle" element={<ToolDetail />} />{" "}
-                  {/* Render ToolDetail when path is /tools/:toolTitle */}
-                </Routes>
-
+                <Home />
+                <ChatBot />
                 <a
                   href="#"
                   id="scroll-top"
@@ -111,12 +103,14 @@ function App() {
               </>
             }
           />
-
           <Route
             path="/outputhistory"
             element={
               <>
+                <Home />
                 <OutputHistory />
+                <Footer />
+
                 <a
                   href="#"
                   id="scroll-top"
@@ -128,7 +122,43 @@ function App() {
             }
           />
 
-          {/* Main content route - moved to be after /tools route */}
+          <Route
+            path="/tool/:toolTitle" // Route for individual tool details
+            element={
+              <>
+                <Home /> {/* Or any layout you want */}
+                <ToolDetail /> {/* Render the ToolDetail component */}
+                <Footer />
+                <a
+                  href="#"
+                  id="scroll-top"
+                  className="scroll-top d-flex align-items-center justify-content-center"
+                >
+                  <i className="bi bi-arrow-up-short"></i>
+                </a>
+              </>
+            }
+          />
+
+          <Route
+            path="/tools" // Route for the main Tools page
+            element={
+              <>
+                <Home />
+                <Tools />
+                <Footer />
+                <a
+                  href="#"
+                  id="scroll-top"
+                  className="scroll-top d-flex align-items-center justify-content-center"
+                >
+                  <i className="bi bi-arrow-up-short"></i>
+                </a>
+              </>
+            }
+          />
+
+          {/* Main content route - moved to be after /tools and /tool/:toolTitle route */}
           <Route
             path="*"
             element={
@@ -163,8 +193,28 @@ function MainContent({ isLoggedIn }) {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/otp-reset" element={<OTPReset />} />
         <Route path="/otp-email" element={<OTPEmail />} />
-        <Route path="/" element={<Landing />} />
-        <Route path="/home" element={<Home />} />
+
+        {/* Home route with Tools */}
+        <Route
+          path="/"
+          element={
+            <>
+              <Landing />
+              <Tools />
+            </>
+          }
+        />
+
+        {/*Home route with Tools  */}
+        <Route
+          path="/home"
+          element={
+            <>
+              <Home />
+              <Tools />
+            </>
+          }
+        />
 
         <Route path="/about" element={<About />} />
         <Route path="/skills" element={<Skills />} />

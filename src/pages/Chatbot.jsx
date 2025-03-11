@@ -188,6 +188,7 @@ const ChatSidebar = ({
 const ChatIntro = () => {
   return (
     <div
+      id="chatbot"
       className="container mt-4"
       style={{
         color: "var(--default-color)",
@@ -244,7 +245,7 @@ const ChatDisplay = ({ messages }) => {
 
   return (
     <div
-      className="flex-grow-1 overflow-y-auto px-5 py-4"
+      className="flex-grow-1 overflow-y-auto px-2 py-4"
       ref={chatContainerRef}
       style={{
         display: "flex",
@@ -287,6 +288,7 @@ const ChatDisplay = ({ messages }) => {
 
 const InputBox = ({ onSendMessage }) => {
   const [message, setMessage] = useState("");
+  const fileInputRef = useRef(null);
 
   const handleSendMessage = () => {
     if (message.trim() !== "") {
@@ -294,6 +296,25 @@ const InputBox = ({ onSendMessage }) => {
       setMessage("");
     }
   };
+
+  const handleFileClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      console.log("Selected file:", file);
+      // Handle file upload logic here
+    }
+  };
+
+  useEffect(() => {
+    const inputElement = document.querySelector(".form-control");
+    if (inputElement) {
+      inputElement.focus();
+    }
+  }, []);
 
   return (
     <div
@@ -311,9 +332,17 @@ const InputBox = ({ onSendMessage }) => {
         >
           <button
             className="btn"
+            onClick={handleFileClick}
             style={{ minWidth: "40px", color: "var(--default-color)" }}
           >
             <i className="fas fa-plus"></i>
+            <input
+              type="file"
+              style={{ display: "none" }}
+              accept="*"
+              onChange={handleFileChange}
+              ref={fileInputRef}
+            />
           </button>
           <button
             className="btn"
@@ -325,7 +354,14 @@ const InputBox = ({ onSendMessage }) => {
             type="text"
             className="form-control flex-grow-1 bg-transparent border-0 py-3"
             placeholder="Ask anything"
-            style={{ fontSize: "1rem", color: "var(--default-color)" }}
+            style={{
+              fontSize: "1rem",
+              color: "var(--default-color)",
+              paddingLeft: "1rem",
+              paddingRight: "1rem",
+              outline: "none !important",
+              boxShadow: "none !important",
+            }}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {

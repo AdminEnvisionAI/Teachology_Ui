@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function Signup() {
   return (
-    <div className="signup-container">
+    <div className="signup-container" id="signup">
       <section className="vh-100 shorter-section">
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-start h-100">

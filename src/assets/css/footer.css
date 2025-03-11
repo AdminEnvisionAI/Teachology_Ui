@@ -1,0 +1,97 @@
+/* Footer.css */
+
+.footer {
+  background-color: #f8f9fa;
+  width: 100%;
+  padding: 0 0 12px 0;
+  font-size: 0.7rem;
+  line-height: 0.8;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.footer .copyright {
+  margin-bottom: 0;
+  text-align: left;
+  width: 30%; /* Allow the copyright to take up a portion of the width */
+}
+
+.footer .copyright p {
+  margin-bottom: 0;
+}
+
+.footer .social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer .social-links a {
+  display: inline-flex; /* Use flex for alignment */
+  align-items: center; /* Vertically center the icon */
+  justify-content: center; /* Horizontally center the icon */
+  width: 30px; /* Set a fixed width */
+  height: 30px; /* Set a fixed height (must match width for a circle) */
+  font-size: 1em; /* Control icon size */
+  border-radius: 60%; /* Make it round */
+  background-color: rgba(0, 0, 0, 0.1); /* Light background for the boundary */
+  color: #495057; /* Icon color */
+  margin: 0 2px; /* Adjust spacing between icons */
+  text-decoration: none; /* Remove underlines from links */
+}
+
+.footer .social-links a i {
+  font-size: 1em; /* Adjust the icon size relative to the a tag */
+}
+
+.footer .credits {
+  margin-bottom: 0;
+  text-align: right;
+  width: 30%; /* Allow the credits to take up a portion of the width */
+}
+
+/* Media query for smaller screens (e.g., mobile) */
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column; /* Stack elements vertically */
+    text-align: center; /* Center align text */
+    padding: 10px 0; /* Add more vertical padding */
+  }
+
+  .footer .container {
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    text-align: center;
+  }
+
+  .footer .copyright {
+    text-align: center; /* Center align copyright on small screens */
+    width: 100%; /* Take full width */
+    margin-bottom: 5px; /* Add spacing below */
+  }
+
+  .footer .credits {
+    text-align: center; /* Center align credits on small screens */
+    width: 100%; /* Take full width */
+    margin-top: 5px; /* Add spacing above */
+  }
+
+  .footer .social-links {
+    margin: 5px 0; /* Add vertical spacing around social links */
+  }
+
+  .footer {
+    font-size: 0.6rem; /* Make font smaller */
+  }
+}

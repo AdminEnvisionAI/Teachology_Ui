@@ -95,7 +95,7 @@ function OutputHistory() {
   });
 
   return (
-    <div className="container">
+    <div className="container" id="outputhistory">
       <h2>Output History</h2>
 
       {/* Search and Date Filters */}

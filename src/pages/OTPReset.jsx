@@ -50,7 +50,7 @@ function OTPReset() {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container" id="login">
       <section className="vh-100 shorter-section">
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-start h-100">
