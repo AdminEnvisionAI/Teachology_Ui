@@ -1,0 +1,148 @@
+/* tooldetail.css */
+
+:root {
+  /* Refined "Intelligent Horizon Pro" Palette (AI Teaching Focused) */
+  --background-color: #f0f4f8; /* Light blue-gray; modern, clean */
+  --default-color: #495057; /* Medium gray; comfortable readability */
+  --heading-color: #304768; /* Darker, authoritative blue; intelligence - Lighter */
+  --accent-color: #2962ff; /* Classic, confident blue; innovation - Vibrant */
+  --surface-color: #ffffff; /* White; for clear card separation */
+  --contrast-color: #ffffff; /* White; on the accent blue */
+  --secondary-accent-color: #64b5f6; /*Light blue, progress bar */
+
+  --default-font: "Roboto", sans-serif;
+  --heading-font: "Questrial", sans-serif;
+}
+
+.tool-detail-section {
+  background-color: var(--background-color);
+  padding: 2rem 0;
+  min-height: 83vh; /* Ensure full height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tool-detail-container {
+  width: 100%;
+  max-width: 800px; /* Adjust as needed */
+}
+
+.tool-detail-card {
+  background-color: var(--surface-color);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.tool-detail-title {
+  font-family: var(--heading-font);
+  color: var(--heading-color);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.tool-detail-content {
+  color: var(--default-color);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.tool-detail-form {
+  /* Add any specific form styling here */
+}
+
+.form-group {
+  margin-bottom: 1rem; /* Reduced margin for smaller height */
+}
+
+.form-label {
+  display: block;
+  font-size: 0.85rem; /* Reduced font size */
+  color: var(--heading-color);
+  margin-bottom: 0.3rem; /* Reduced margin */
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.5rem; /* Reduced padding */
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 0.9rem; /* Reduced font size */
+  color: var(--default-color);
+  background-color: var(--surface-color);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: var(--accent-color);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(41, 98, 255, 0.25); /* Highlight color */
+}
+
+textarea.form-control {
+  resize: vertical; /* Allow vertical resizing */
+  min-height: 80px; /* Reduced min-height */
+}
+
+select.form-control {
+  appearance: none; /* Remove default arrow */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23495057' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E"); /* Custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 8px 10px;
+}
+
+.submit-button {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+  font-size: 1rem; /* Reduced font size */
+  font-weight: 500;
+  padding: 0.6rem 1.2rem; /* Reduced padding */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  display: block; /* Make it a block element to center it */
+  margin: 0 auto; /*  Center horizontally */
+  width: fit-content; /* Adjust width to content */
+}
+
+.submit-button:hover {
+  background-color: var(--secondary-accent-color);
+}
+
+.no-form-message {
+  color: var(--default-color);
+  text-align: center;
+  font-style: italic;
+}
+
+.loading-message {
+  color: var(--default-color);
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Image Styling */
+.tool-image-container {
+  text-align: center; /* Center the image */
+  margin-bottom: 1.5rem;
+}
+
+.tool-detail-image {
+  max-width: 70px; /* Adjust as needed */
+  border-radius: 50%; /* Optional: Make it a circle */
+  height: auto;
+}
+
+/* Smaller form controls */
+.form-control-sm {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.8rem;
+}

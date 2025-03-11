@@ -1,11 +1,11 @@
-import { NavLink } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
+import { NavLink, useLocation } from "react-router-dom";
+import { FaHome, FaBars, FaTimes } from "react-icons/fa"; // Import FaTimes for close icon
 import { MdMessage } from "react-icons/md";
 import { BiSearch, BiCog } from "react-icons/bi";
 import { AiFillHeart } from "react-icons/ai";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import "../../assets/css/sidebar.css"; // Make sure path is correct
+import "../../assets/css/sidebar.css";
 
 const routes = [
   {
@@ -27,14 +27,35 @@ const routes = [
 
 const SideBar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [sidebarOpenMobile, setSidebarOpenMobile] = useState(false);
+  const location = useLocation();
 
-  // Hover logic
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleSidebarMobile = () => {
+    setSidebarOpenMobile(!sidebarOpenMobile);
+  };
+
   const handleMouseEnter = () => {
-    setIsOpen(true);
+    if (!isMobile) {
+      setIsOpen(true);
+    }
   };
 
   const handleMouseLeave = () => {
-    setIsOpen(false);
+    if (!isMobile) {
+      setIsOpen(false);
+    }
   };
 
   const inputAnimation = {
@@ -71,41 +92,48 @@ const SideBar = ({ children }) => {
     },
   };
 
+  const isToolsLinkActive = () => {
+    return location.pathname.startsWith("/tools");
+  };
+
   return (
     <>
       <div className="main-container">
+        {isMobile && (
+          <div className="mobile-menu-toggle">
+            {" "}
+            {/* Container for the hamburger and close button */}
+            {!sidebarOpenMobile ? (
+              <FaBars
+                onClick={toggleSidebarMobile}
+                className="hamburger-menu"
+              />
+            ) : (
+              <FaTimes onClick={toggleSidebarMobile} className="close-menu" />
+            )}
+          </div>
+        )}
         <motion.div
           animate={{
-            width: isOpen ? "200px" : "45px",
+            width: isMobile
+              ? sidebarOpenMobile
+                ? "150px"
+                : "0px" // Mobile open/close width
+              : isOpen
+              ? "150px"
+              : "35px", // Desktop hover logic
             transition: {
               duration: 0.3,
               type: "spring",
               damping: 10,
             },
           }}
-          className={`sidebar`}
-          style={{ backgroundColor: "var(--background-color)" }}
+          className={`sidebar ${sidebarOpenMobile ? "open" : ""}`}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           <div className="top_section">
-            <AnimatePresence>
-              {isOpen && (
-                <motion.h1
-                  variants={showAnimation}
-                  initial="hidden"
-                  animate="show"
-                  exit="hidden"
-                  className="logo"
-                  style={{ color: "var(--heading-color)" }}
-                >
-                  DoSomeCoding
-                </motion.h1>
-              )}
-            </AnimatePresence>
-            <div className="bars">
-              {/* <FaBars onClick={toggle} style={{ color: "var(--default-color)" }} /> */}
-            </div>
+            <div className="bars">{/*  Removed redundant FaBars  */}</div>
           </div>
           <div className="search">
             <div
@@ -137,7 +165,11 @@ const SideBar = ({ children }) => {
                 <NavLink
                   to={route.path}
                   key={index}
-                  className="link"
+                  className={`link ${
+                    route.path === "/tools" && isToolsLinkActive()
+                      ? "active"
+                      : ""
+                  }`}
                   activeClassName="active"
                   style={{
                     color: "var(--default-color)",
@@ -150,7 +182,7 @@ const SideBar = ({ children }) => {
                     {route.icon}
                   </div>
                   <AnimatePresence>
-                    {isOpen && (
+                    {(!isMobile || sidebarOpenMobile) && (
                       <motion.div
                         variants={showAnimation}
                         initial="hidden"

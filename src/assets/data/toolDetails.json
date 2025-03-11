@@ -3,37 +3,37 @@
     {
       "title": "Rubric Generator",
       "content": "Have AI write a rubric for an assignment you are creating for your class in a table format.",
-      "image": "/images/rubric.png"
+      "image": "/assets/img/ui/song.png"
     },
     {
       "title": "Writing Feedback",
       "content": "Based on a custom criteria, have AI give areas of strength & areas for growth on student work.",
-      "image": "/images/writing.png"
+      "image": "/assets/img/ui/writing.png"
     },
     {
       "title": "Text Dependent Questions",
       "content": "Generate text-dependent questions for students based on any text that you input.",
-      "image": "/images/text.png"
+      "image": "/assets/img/ui/text.png"
     },
     {
       "title": "Summarize Text",
       "content": "Summarize text for students based on any text that you input.",
-      "image": "/images/summarize.png"
+      "image": "/assets/img/ui/summarize.png"
     },
     {
       "title": "Song Generator",
       "content": "Write a custom song about any topic to the tune of the song of your choice!",
-      "image": "/images/song.png"
+      "image": "/assets/img/ui/song.png"
     },
     {
       "title": "YouTube Video Summarizer",
       "content": "Get a summary of a YouTube video in whatever length you choose.",
-      "image": "/images/youtube.png"
+      "image": "/assets/img/ui/youtube.png"
     },
     {
       "title": "Text Translator",
       "content": "Take any text and translate it into any language instantly.",
-      "image": "/images/translate.png"
+      "image": "/assets/img/ui/translate.png"
     }
   ],
   "formFields": {

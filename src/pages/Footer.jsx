@@ -1,24 +1,18 @@
 import React from "react";
+import "../assets/css/footer.css"; // Import the CSS file
 
 function Footer() {
   return (
-    <footer
-      id="footer"
-      className="footer"
-      style={{
-        backgroundColor: "#f8f9fa",
-        zIndex: 1000,
-      }}
-    >
+    <footer id="footer" className="footer">
       <div className="container">
-        <div className="copyright text-center">
+        <div className="copyright">
           <p>
             © <span>Copyright</span>{" "}
-            <strong className="px-1 sitename">EasyFolio</strong>{" "}
+            <strong className="sitename">EasyFolio</strong>{" "}
             <span>All Rights Reserved</span>
           </p>
         </div>
-        <div className="social-links d-flex justify-content-center">
+        <div className="social-links">
           <a href="#">
             <i className="bi bi-twitter-x"></i>
           </a>

@@ -1,8 +1,7 @@
 /* Sidebar */
 .main-container {
-  /* Added a container class for the whole component */
   display: flex;
-  min-height: 65vh; /* Full viewport height */
+  margin-right: 50px;
 }
 
 .sidebar {
@@ -14,12 +13,42 @@
   top: 0;
   left: 0;
   z-index: 10; /* Ensure it's above other content */
-  width: auto; /* Remove fixed width, let content determine */
+  width: 45px; /* Default narrow width */
   transition: width 0.3s ease; /* Smooth transition */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
 }
 .sidebar:hover {
   width: 200px; /* Widen on hover */
+}
+
+/* Mobile View Adjustment */
+@media (max-width: 768px) {
+  .main-container {
+    margin-right: 0; /* Reset margin */
+  }
+
+  main {
+    margin-left: 0; /* Reset main margin */
+  }
+
+  .sidebar {
+    position: fixed; /* Ensure it stays fixed */
+    top: 0;
+    left: 0;
+    height: 100vh; /* Occupy full viewport height */
+    width: 0; /* Start collapsed */
+    overflow-x: hidden; /* Hide overflow content */
+    z-index: 1000; /* Ensure it's on top */
+    transition: width 0.3s ease-in-out; /* Smooth transition */
+  }
+
+  .sidebar.open {
+    width: 250px; /* Expand when open */
+  }
+
+  .sidebar.open ~ main {
+    margin-left: 250px; /* Push main content when sidebar is open */
+  }
 }
 
 .sidebar .top_section {
@@ -146,10 +175,51 @@
 
 /* Main Content */
 main {
-  padding: 20px;
   transition: margin-left 0.3s ease;
 }
 
 .sidebar:hover ~ main {
   margin-left: 200px; /* Adjust based on open sidebar width */
+}
+
+/* Mobile Menu Toggle Button */
+.mobile-menu-toggle {
+  position: fixed;
+  top: 10px; /* Position in the top corner */
+  left: 10px; /* Position in the top corner */
+  z-index: 1001; /* Ensure it's above the sidebar */
+  background: rgba(255, 255, 255, 0.8); /* Optional: Add a background */
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+}
+
+.mobile-menu-toggle .hamburger-menu,
+.mobile-menu-toggle .close-menu {
+  font-size: 1.5em; /* Adjust size */
+  color: var(--default-color);
+}
+
+.mobile-menu-toggle .close-menu,
+.mobile-menu-toggle .hamburger-menu {
+  position: absolute;
+  top: 90px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.8); /* Optional: Add a background */
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+}
+
+@media (min-width: 769px) {
+  /* Hide on larger screens */
+  .mobile-menu-toggle {
+    display: none;
+  }
 }

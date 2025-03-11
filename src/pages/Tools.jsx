@@ -1,83 +1,49 @@
 // Tools.jsx
 import React, { useState, useEffect } from "react";
-import "../assets/css/tools.css"; // Import the CSS file
-import toolDetails from "../assets/data/toolDetails.json"; // Import the JSON data
+import "../assets/css/tools.css";
+import toolDetails from "../assets/data/toolDetails.json";
 import { useNavigate } from "react-router-dom";
+
 const Tools = () => {
   const [tools, setTools] = useState([]);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Load tools from the JSON data on component mount
     setTools(toolDetails.recommendedTools);
   }, []);
 
-  const handleCardClick = (toolTitle) => {
-    // Navigate to a new route with the tool title as a parameter
-    navigate(`/tool/${toolTitle}`);
-  };
-
-  const getColorForIndex = (index) => {
-    const colors = [
-      "primary",
-      "warning",
-      "success",
-      "info",
-      "danger",
-      "light",
-      "dark",
-    ]; // Bootstrap color names
-    return colors[index % colors.length]; // Cycle through colors
+  const handleCardClick = (tool) => {
+    // Pass the entire tool object
+    navigate(`/tool/${tool.title}`, { state: { tool } }); // Send the tool as state
   };
 
   return (
-    <div className="container mt-5">
-      <h5>Recommended Tools</h5>
+    <div className="container" id="tools">
+      <h5 className="mb-4">Recommended Tools</h5>
       <div className="row">
-        {tools.map((tool, index) => {
-          const color = getColorForIndex(index);
-
-          return (
-            <div className="col-lg-4" key={index}>
-              <div className="card card-margin">
-                <div className="card-header no-border">
-                  <h5 className="card-title">{tool.title}</h5>
-                </div>
-                <div className="card-body pt-0">
-                  <div className="widget-49">
-                    <div className="widget-49-title-wrapper">
-                      <div className={`widget-49-date-${color}`}>
-                        <span className="widget-49-date-day">{index + 1}</span>
-                        <span className="widget-49-date-month">Tool</span>
-                      </div>
-                      <div className="widget-49-meeting-info">
-                        <span className="widget-49-pro-title">
-                          {tool.title}
-                        </span>
-                        <span className="widget-49-meeting-time">
-                          Click for Details
-                        </span>
-                      </div>
-                    </div>
-                    <ol className="widget-49-meeting-points">
-                      <li className="widget-49-meeting-item">
-                        <span>{tool.content}</span>
-                      </li>
-                    </ol>
-                    <div className="widget-49-meeting-action">
-                      <button
-                        className={`btn btn-sm btn-flash-border-${color}`}
-                        onClick={() => handleCardClick(tool.title)}
-                      >
-                        Use Tool
-                      </button>
-                    </div>
-                  </div>
-                </div>
+        {tools.map((tool, index) => (
+          <div className="col-lg-4 col-md-6 mb-4" key={index}>
+            <div className="card tool-card h-100">
+              <div className="card-img-container">
+                <img
+                  src={tool.image}
+                  className="card-img-top tool-image rounded-circle"
+                  alt={tool.title}
+                />
+              </div>
+              <div className="card-body">
+                <h5 className="card-title">{tool.title}</h5>
+                <p className="card-text">{tool.content}</p>
+                <button
+                  className="btn btn-primary tool-button"
+                  onClick={() => handleCardClick(tool)} // Pass the entire tool
+                >
+                  Use Tool
+                </button>
               </div>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
     </div>
   );
