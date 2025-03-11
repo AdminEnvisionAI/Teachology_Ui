@@ -35,7 +35,8 @@ import ChatBot from "./pages/Chatbot";
 import OutputHistory from "./pages/OutputHistory";
 import Home from "./pages/Home";
 import Tools from "./pages/Tools";
-import ToolDetail from "./pages/ToolDetail"; // Import ToolDetail  (Assuming you've created this)
+import ToolDetail from "./pages/ToolDetail"; // Import ToolDetail
+import Output from "./pages/Output"; // Import the Output component
 
 // Create Authentication Context
 const AuthContext = createContext();
@@ -132,79 +133,97 @@ function AppContent() {
         <Route
           path="/chatbot"
           element={
-            <RequireAuth>
-              <>
-                <Home />
-                <ChatBot />
-                <a
-                  href="#"
-                  id="scroll-top"
-                  className="scroll-top d-flex align-items-center justify-content-center"
-                >
-                  <i className="bi bi-arrow-up-short"></i>
-                </a>
-              </>
-            </RequireAuth>
+            // <RequireAuth>
+            <>
+              <Home />
+              <ChatBot />
+              <a
+                href="#"
+                id="scroll-top"
+                className="scroll-top d-flex align-items-center justify-content-center"
+              >
+                <i className="bi bi-arrow-up-short"></i>
+              </a>
+            </>
+            // </RequireAuth>
           }
         />
         <Route
           path="/outputhistory"
           element={
-            <RequireAuth>
-              <>
-                <Home />
-                <OutputHistory />
-                <Footer />
+            // <RequireAuth>
+            <>
+              <Home />
+              <OutputHistory />
+              <Footer />
 
-                <a
-                  href="#"
-                  id="scroll-top"
-                  className="scroll-top d-flex align-items-center justify-content-center"
-                >
-                  <i className="bi bi-arrow-up-short"></i>
-                </a>
-              </>
-            </RequireAuth>
+              <a
+                href="#"
+                id="scroll-top"
+                className="scroll-top d-flex align-items-center justify-content-center"
+              >
+                <i className="bi bi-arrow-up-short"></i>
+              </a>
+            </>
+            // </RequireAuth>
           }
         />
-
+        <Route
+          path="/output"
+          element={
+            // <RequireAuth>
+            <>
+              <Home />
+              <Output />
+              <Footer />
+              <a
+                href="#"
+                id="scroll-top"
+                className="scroll-top d-flex align-items-center justify-content-center"
+              >
+                <i className="bi bi-arrow-up-short"></i>
+              </a>
+            </>
+            // </RequireAuth>
+          }
+        />
         <Route
           path="/tool/:toolTitle" // Route for individual tool details
           element={
-            <RequireAuth>
-              <>
-                <Home /> {/* Or any layout you want */}
-                <ToolDetail /> {/* Render the ToolDetail component */}
-                <Footer />
-                <a
-                  href="#"
-                  id="scroll-top"
-                  className="scroll-top d-flex align-items-center justify-content-center"
-                >
-                  <i className="bi bi-arrow-up-short"></i>
-                </a>
-              </>
-            </RequireAuth>
+            // <RequireAuth>
+            <>
+              <Home /> {/* Or any layout you want */}
+              <ToolDetail /> {/* Render the ToolDetail component */}
+              <Footer />
+              <a
+                href="#"
+                id="scroll-top"
+                className="scroll-top d-flex align-items-center justify-content-center"
+              >
+                <i className="bi bi-arrow-up-short"></i>
+              </a>
+            </>
+            // </RequireAuth>
           }
         />
 
         <Route
           path="/tools" // Route for the main Tools page
           element={
-            <RequireAuth>
-              <>
-                <Home />
-                <Tools />
-                <Footer />
-                <a
-                  href="#"
-                  id="scroll-top"
-                  className="scroll-top d-flex align-items-center justify-content-center"
-                >
-                  <i className="bi bi-arrow-up-short"></i>
-                </a>
-              </>
-            </RequireAuth>
+            // <RequireAuth>
+            <>
+              <Home />
+              <Tools />
+              <Footer />
+              <a
+                href="#"
+                id="scroll-top"
+                className="scroll-top d-flex align-items-center justify-content-center"
+              >
+                <i className="bi bi-arrow-up-short"></i>
+              </a>
+            </>
+            // </RequireAuth>
           }
         />
 
@@ -240,9 +259,9 @@ function AppContent() {
         <Route
           path="/*"
           element={
-            <RequireAuth>
-              <MainContent />
-            </RequireAuth>
+            // <RequireAuth>
+            <MainContent />
+            // </RequireAuth>
           }
         />
       </Routes>

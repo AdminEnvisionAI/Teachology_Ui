@@ -1,4 +1,3 @@
-// Tools.jsx
 import React, { useState, useEffect } from "react";
 import "../assets/css/tools.css";
 import toolDetails from "../assets/data/toolDetails.json";
@@ -13,8 +12,7 @@ const Tools = () => {
   }, []);
 
   const handleCardClick = (tool) => {
-    // Pass the entire tool object
-    navigate(`/tool/${tool.title}`, { state: { tool } }); // Send the tool as state
+    navigate(`/tool/${tool.title}`, { state: { tool } });
   };
 
   return (
@@ -22,24 +20,33 @@ const Tools = () => {
       <h5 className="mb-4">Recommended Tools</h5>
       <div className="row">
         {tools.map((tool, index) => (
-          <div className="col-lg-4 col-md-6 mb-4" key={index}>
-            <div className="card tool-card h-100">
-              <div className="card-img-container">
-                <img
-                  src={tool.image}
-                  className="card-img-top tool-image rounded-circle"
-                  alt={tool.title}
-                />
-              </div>
+          <div className="col-lg-4" key={index}>
+            <div className="card card-margin tool-card-custom">
               <div className="card-body">
-                <h5 className="card-title">{tool.title}</h5>
-                <p className="card-text">{tool.content}</p>
-                <button
-                  className="btn btn-primary tool-button"
-                  onClick={() => handleCardClick(tool)} // Pass the entire tool
-                >
-                  Use Tool
-                </button>
+                <div className="widget-49">
+                  <div className="widget-49-title-wrapper">
+                    <div className="widget-49-date-primary">
+                      <img
+                        src={tool.image}
+                        alt={tool.title}
+                        className="tool-image-custom"
+                      />
+                    </div>
+                    <div className="widget-49-meeting-info">
+                      <span className="widget-49-pro-title">{tool.title}</span>
+                      {/* Removed <span class="widget-49-meeting-time">12:00 to 13.30 Hrs</span> */}
+                    </div>
+                  </div>
+
+                  <div className="widget-49-meeting-action">
+                    <button
+                      className="btn btn-sm use-tool-button" // Removed btn-flash-border-primary
+                      onClick={() => handleCardClick(tool)}
+                    >
+                      Use Tool
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

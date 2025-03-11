@@ -1,0 +1,301 @@
+/* OutputScreen.css */
+.output-screen-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  /* A subtle background */
+}
+
+.output-screen {
+  padding: 30px;
+  margin: 20px auto;
+  background-color: #fff;
+  border-radius: 12px;
+  flex-grow: 1;
+  max-width: 1200px; /* Reduced max width */
+  width: 90%; /* Take up 90% of the screen width */
+}
+
+.output-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  position: relative;
+  /* Added relative positioning */
+  border: 1px solid #e0e0e0; /* Subtle border */
+  display: flex; /* Add flexbox */
+  flex-direction: column; /* Stack items vertically */
+}
+
+.results-heading {
+  color: #283149;
+  margin-bottom: 30px;
+  font-size: 1.3rem;
+  /* Slightly larger heading */
+  font-weight: 600;
+  text-align: center;
+}
+
+.question-card {
+  margin-bottom: 30px;
+  padding: 25px;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  background-color: #fefefe;
+  transition: all 0.2s ease-in-out;
+  /* Subtle hover effect */
+}
+
+.question-card:hover {
+  transform: translateY(-3px);
+}
+
+.question-number {
+  color: #495057;
+  margin-bottom: 12px;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.question-text {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  /* Improved readability */
+  color: #343a40;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  font-size: 1rem;
+  color: #495057;
+}
+
+.option.selected {
+  background-color: #d1e2ff;
+  border-color: #2962ff;
+  color: #2962ff;
+}
+
+.option input[type="radio"] {
+  margin-right: 12px;
+  appearance: none;
+  /* Remove default radio button styling */
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  position: relative;
+  /* For the checked state */
+}
+
+.option input[type="radio"]:checked {
+  border-color: #2962ff;
+}
+
+.option input[type="radio"]:checked::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background-color: #2962ff;
+  border-radius: 50%;
+}
+
+.short-answer-textarea {
+  width: calc(100% - 20px);
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  resize: vertical;
+  min-height: 100px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  color: #495057;
+}
+
+.answer-section {
+  margin-top: 20px;
+  border-top: 1px solid #e9ecef;
+  padding-top: 20px;
+}
+
+.correct-answer {
+  font-size: 1.1rem;
+  color: #212529;
+  margin-bottom: 8px;
+}
+
+.feedback {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.feedback.correct {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+
+.feedback.incorrect {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+.submit-button {
+  background-color: #2962ff;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.submit-button:hover {
+  background-color: #1a43bb;
+  transform: translateY(-2px);
+}
+
+/* React Quill Editor Styling */
+.summary-container {
+  position: relative;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  min-height: 300px;
+  overflow: auto;
+}
+
+.react-quill-wrapper {
+  margin-bottom: 25px;
+}
+
+.react-quill-editor {
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  min-height: 250px;
+  padding: 10px;
+}
+
+.ql-editor {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #343a40;
+}
+
+/* General thumbnail styling */
+.thumbnail-container {
+  width: 100px; /* Further reduced width */
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px; /* Added margin below the thumbnail */
+}
+
+.youtube-thumbnail {
+  width: 100%; /* Take the full width of the container */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Remove any extra spacing */
+  object-fit: cover; /* Ensure image fills the container */
+}
+
+.skeleton-thumbnail {
+  width: 100%;
+  height: 75px; /* Reduced skeleton height to match thumbnail */
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s linear infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .output-screen {
+    padding: 20px;
+    margin: 10px auto;
+  }
+
+  .output-container {
+    padding: 20px;
+  }
+
+  .question-card {
+    padding: 20px;
+  }
+
+  .results-heading {
+    font-size: 1.75rem;
+  }
+
+  .question-number {
+    font-size: 1.2rem;
+  }
+
+  .question-text {
+    font-size: 1rem;
+  }
+
+  .option {
+    font-size: 0.9rem;
+  }
+
+  .short-answer-textarea {
+    font-size: 0.9rem;
+  }
+
+  .correct-answer {
+    font-size: 1rem;
+  }
+
+  .submit-button {
+    font-size: 1rem;
+  }
+
+  .thumbnail-container {
+    width: 70%;
+    /* Adjust for smaller screens */
+  }
+
+  .skeleton-thumbnail-small {
+    height: 50px;
+  }
+}

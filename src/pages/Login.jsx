@@ -62,6 +62,7 @@ function Login() {
     if (!validateForm()) {
       return;
     }
+    navigate("/home");
 
     setLoading(true);
     setErrorMessage("");

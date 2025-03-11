@@ -1,222 +1,311 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import axios from "axios";
+import { format } from "date-fns";
+import { useDispatch, useSelector } from "react-redux";
+import { updateHistory, selectHistory } from "../redux/historySlice";
+import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons"; // Import calendar icon
+import { faTrash, faBan } from "@fortawesome/free-solid-svg-icons";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { selectUserId } from "../redux/authSlice";
+import Swal from "sweetalert2";
+import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
+
+const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
 function OutputHistory() {
-  const [data, setData] = useState([
-    // Sample data - replace with your actual data source
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@gmail.com",
-      title: "Software engineer",
-      department: "IT department",
-      status: "Active",
-      position: "Senior",
-      date: "2024-01-15",
-      image: "https://mdbootstrap.com/img/new/avatars/8.jpg", // added image
-    },
-    {
-      id: 2,
-      name: "Alex Ray",
-      email: "alex.ray@gmail.com",
-      title: "Consultant",
-      department: "Finance",
-      status: "Onboarding",
-      position: "Junior",
-      date: "2024-02-20",
-      image: "https://mdbootstrap.com/img/new/avatars/6.jpg", // added image
-    },
-    {
-      id: 3,
-      name: "Kate Hunington",
-      email: "kate.hunington@gmail.com",
-      title: "Designer",
-      department: "UI/UX",
-      status: "Awaiting",
-      position: "Senior",
-      date: "2024-03-10",
-      image: "https://mdbootstrap.com/img/new/avatars/7.jpg", // added image
-    },
-    {
-      id: 4,
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      title: "Project Manager",
-      department: "Management",
-      status: "Active",
-      position: "Senior",
-      date: "2024-04-01",
-      image: "https://mdbootstrap.com/img/new/avatars/5.jpg", // added image
-    },
-    {
-      id: 5,
-      name: "Peter Jones",
-      email: "peter.jones@example.com",
-      title: "Data Analyst",
-      department: "Analytics",
-      status: "Active",
-      position: "Junior",
-      date: "2024-04-15",
-      image: "https://mdbootstrap.com/img/new/avatars/4.jpg", // added image
-    },
-  ]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [historyData, setHistoryData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTool, setSelectedTool] = useState("all");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const history = useSelector(selectHistory);
+  const [allTools, setAllTools] = useState([]);
+  // const userId = useSelector(selectUserId);
+  const userId = "67b84d6e33d491ca16e0d455";
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id)); //remove by item id
+  const fetchHistoryData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      let url = `${API_BASE_URL}/api/history?user_id=${userId}`;
+      if (searchQuery) url += `&search=${searchQuery}`;
+      if (selectedTool !== "all") url += `&tool=${selectedTool}`;
+      if (startDate) url += `&startDate=${format(startDate, "yyyy-MM-dd")}`;
+      if (endDate) url += `&endDate=${format(endDate, "yyyy-MM-dd")}`;
+
+      const response = await axios.get(url);
+      setHistoryData(response.data);
+      dispatch(updateHistory(response.data));
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [searchQuery, selectedTool, startDate, endDate, dispatch, userId]);
+
+  useEffect(() => {
+    fetchHistoryData();
+
+    const getDistinctTools = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/api/distinct-tools?user_id=${userId}`
+        );
+        setAllTools(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getDistinctTools();
+  }, [fetchHistoryData, userId]);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
+  const handleToolChange = (selectedOption) => {
+    setSelectedTool(selectedOption ? selectedOption.value : "all");
   };
 
-  const handleStartDateChange = (event) => {
-    setStartDate(event.target.value);
+  const handleDateChange = (type, date) => {
+    if (type === "start") setStartDate(date);
+    else setEndDate(date);
   };
 
-  const handleEndDateChange = (event) => {
-    setEndDate(event.target.value);
+  const handleDelete = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        setError(null);
+        try {
+          await axios.post(`${API_BASE_URL}/api/delete/history`, {
+            history_id: id,
+            user_id: userId,
+          });
+
+          fetchHistoryData();
+          Swal.fire("Deleted!", "Your entry has been deleted.", "success");
+        } catch (err) {
+          setError(err.message);
+          Swal.fire(
+            "Error!",
+            "There was an error deleting your entry.",
+            "error"
+          );
+        } finally {
+          setLoading(false);
+        }
+      }
+    });
   };
 
-  const filteredData = data.filter((item) => {
-    const searchMatch =
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.title.toLowerCase().includes(searchTerm.toLowerCase());
+  const deleteAllHistory = async () => {
+    Swal.fire({
+      title: "Are you absolutely sure?",
+      text: "This will delete all your history entries and cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete all!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        setError(null);
+        try {
+          await axios.post(`${API_BASE_URL}/api/delete_all_history`, {
+            user_id: userId,
+          });
+
+          fetchHistoryData();
+          Swal.fire(
+            "Deleted!",
+            "All history entries have been deleted.",
+            "success"
+          );
+        } catch (err) {
+          setError(err.message);
+          Swal.fire("Error!", "There was an error deleting history.", "error");
+        } finally {
+          setLoading(false);
+        }
+      }
+    });
+  };
+
+  const toolOptions = [
+    { value: "all", label: "All Tools" },
+    ...allTools.map((tool) => ({ value: tool, label: tool })),
+  ];
+
+  const filteredData = historyData.filter((item) => {
+    const searchMatch = item.title
+      ?.toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    let toolMatch = true;
+    if (selectedTool !== "all") {
+      toolMatch = item.tool === selectedTool;
+    }
 
     const dateMatch =
-      (!startDate || new Date(item.date) >= new Date(startDate)) &&
-      (!endDate || new Date(item.date) <= new Date(endDate));
+      (!startDate || new Date(item.createdAt) >= new Date(startDate)) &&
+      (!endDate || new Date(item.createdAt) <= new Date(endDate));
 
-    return searchMatch && dateMatch;
+    return searchMatch && toolMatch && dateMatch;
   });
 
   return (
     <div className="container" id="outputhistory">
-      <h2>Output History</h2>
-
-      {/* Search and Date Filters */}
-      <div className="mb-3">
-        <div className="input-group">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search by Name or Title"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-        </div>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2>Output History</h2>
+        <button
+          className="btn btn-outline-primary"
+          onClick={deleteAllHistory}
+          disabled={loading}
+        >
+          <FontAwesomeIcon icon={faBan} style={{ marginRight: "5px" }} />
+          Delete All History
+        </button>
       </div>
 
       <div className="row mb-3">
-        <div className="col-md-6">
+        {/* Search Filter */}
+        <div className="col-md-4 mb-2">
           <div className="input-group">
-            <div className="input-group-prepend">
-              <span
-                className="input-group-text"
-                style={{
-                  height: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <FontAwesomeIcon icon={faCalendarAlt} />
-              </span>
-            </div>
             <input
-              type="date"
+              type="text"
               className="form-control"
-              value={startDate}
-              onChange={handleStartDateChange}
+              placeholder="Search by Title"
+              value={searchQuery}
+              onChange={handleSearchChange}
             />
           </div>
         </div>
 
-        <div className="col-md-6">
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <span
-                className="input-group-text"
-                style={{
-                  height: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <FontAwesomeIcon icon={faCalendarAlt} />
-              </span>
+        {/* Tool Filter */}
+        <div className="col-md-4 mb-2">
+          <Select
+            className="react-select-container"
+            classNamePrefix="react-select"
+            options={toolOptions}
+            value={toolOptions.find((option) => option.value === selectedTool)}
+            onChange={handleToolChange}
+            placeholder="Select Tool"
+            isClearable={false} // Prevent clearing the selected tool to keep 'All Tools' always available
+            styles={{
+              control: (baseStyles, state) => ({
+                ...baseStyles,
+                borderColor: state.isFocused ? "#80bdff" : "#ced4da",
+                boxShadow: state.isFocused
+                  ? "0 0 0 0.2rem rgba(0,123,255,.25)"
+                  : null,
+              }),
+            }}
+          />
+        </div>
+
+        {/* Date Filters */}
+        <div className="col-md-4">
+          <div className="d-flex">
+            <div className="input-group mr-2">
+              <div className="input-group-prepend">
+                <span
+                  className="input-group-text"
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <FontAwesomeIcon icon={faCalendarAlt} />
+                </span>
+              </div>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => handleDateChange("start", date)}
+                dateFormat="MM/dd/yyyy"
+                placeholderText="Start Date"
+                className="form-control"
+                selectsStart
+                startDate={startDate}
+                endDate={endDate}
+              />
             </div>
-            <input
-              type="date"
-              className="form-control"
-              value={endDate}
-              onChange={handleEndDateChange}
-            />
+
+            <div className="input-group">
+              <div className="input-group-prepend">
+                <span
+                  className="input-group-text"
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <FontAwesomeIcon icon={faCalendarAlt} />
+                </span>
+              </div>
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => handleDateChange("end", date)}
+                dateFormat="MM/dd/yyyy"
+                placeholderText="End Date"
+                className="form-control"
+                selectsEnd
+                startDate={startDate}
+                endDate={endDate}
+                minDate={startDate}
+              />
+            </div>
           </div>
         </div>
       </div>
 
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
+
       <div className="table-responsive">
-        {/* Add table responsiveness */}
         <table className="table table-striped table-bordered">
           <thead className="thead-dark">
             <tr>
-              <th>Image</th>
-              <th>Name</th>
               <th>Title</th>
-              <th>Status</th>
-              <th>Position</th>
-              <th>Date</th>
+              <th>Tool</th>
+              <th>Created At</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.map((item) => (
-              <tr key={item.id}>
-                <td>
-                  <div className="d-flex align-items-center">
-                    <img
-                      src={item.image}
-                      alt={`${item.name} Avatar`}
-                      style={{ width: "45px", height: "45px" }}
-                      className="rounded-circle"
-                    />
-                    <div className="ms-3"></div>
-                  </div>
-                </td>
-                <td>
-                  <div className="d-flex align-items-center">
-                    <div className="ms-3">
-                      <p className="fw-bold mb-1">{item.name}</p>
-                      <p className="text-muted mb-0">{item.email}</p>
-                    </div>
-                  </div>
-                </td>
+              <tr key={item._id}>
                 <td>{item.title}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      item.status === "Active"
-                        ? "badge-success"
-                        : item.status === "Onboarding"
-                        ? "badge-primary"
-                        : "badge-warning"
-                    } rounded-pill d-inline`}
-                    style={{ color: "black" }}
-                  >
-                    {item.status}
-                  </span>
-                </td>
-                <td>{item.position}</td>
-                <td>{item.date}</td>
+                <td>{item.tool}</td>
+                <td>{format(new Date(item.createdAt), "MM/dd/yyyy HH:mm")}</td>
                 <td>
                   <button
                     type="button"
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(item.id)}
+                    onClick={() => handleDelete(item._id)}
+                    disabled={loading}
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
@@ -225,7 +314,9 @@ function OutputHistory() {
             ))}
           </tbody>
         </table>
-        {filteredData.length === 0 && <p>No matching data found.</p>}
+        {filteredData.length === 0 && !loading && (
+          <p>No matching data found.</p>
+        )}
       </div>
     </div>
   );
