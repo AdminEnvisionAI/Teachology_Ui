@@ -1,0 +1,64 @@
+.header {
+    background-color: #e9ecef; /* Light gray background */
+    padding: 0 0;
+    border-radius: 0; /* Removes any rounded corners */
+    width: 100%; /* Ensures full width */
+    position: fixed; /* Fixed positioning at the top */
+    top: 0; /* Aligns it to the very top */
+    left: 0; /* Ensures it starts from the left edge */
+    z-index: 1000; /* High z-index to ensure it stays on top of other content */
+}
+
+.header-container {
+    padding: 0 20px;
+    width: 100%; /* Make container full-width to match header */
+    max-width: none; /* Remove any max-width constraints on the container */
+}
+
+.logo-image {
+    max-height: 40px; /* Adjust logo size as needed */
+}
+
+/* Navigation */
+.navmenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.navmenu li {
+    margin-left: 20px;
+}
+
+.navmenu a {
+    text-decoration: none;
+    color: #555; /* Darker gray for text */
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navmenu a:hover,
+.navmenu a.active {
+    color: #007bff; /* Highlight color */
+}
+
+/* Profile Section */
+.profile-section {
+    display: flex;
+    align-items: center;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #333; /* Dark text for the profile name */
+}
+
+/* Mobile Nav Toggle */
+.mobile-nav-toggle {
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+}

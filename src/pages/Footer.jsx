@@ -7,9 +7,7 @@ function Footer() {
       <div className="container">
         <div className="copyright">
           <p>
-            © <span>Copyright</span>{" "}
-            <strong className="sitename">Contact@envisionaitech.com</strong>{" "}
-            <span>All Rights Reserved</span>
+            <strong className="sitename">Email: Contact@envisionaitech.com</strong>{" "}
           </p>
         </div>
         <div className="social-links">

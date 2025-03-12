@@ -66,7 +66,7 @@ body {
   font-family: var(--default-font);
 }
 #offcanvasSidebar {
-  padding-left: 50px;
+  padding-left: 150px;
 }
 #tools,
 #tooldetail,
@@ -74,8 +74,11 @@ body {
 #login,
 #outputhistory,
 #contact {
-  min-height: 100vh !important;
+  min-height: 87vh;
   margin-top: 40px;
+}
+#login,#contact{
+  min-height:90vh
 }
 
 a {
@@ -165,9 +168,7 @@ h6 {
 
 .header .header-container {
   background: var(--surface-color);
-  border-radius: 50px;
   padding: 5px 25px;
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
 }
 
 .header .logo {
@@ -650,8 +651,7 @@ h6 {
 --------------------------------------------------------------*/
 section,
 .section {
-  color: var(--default-color);
-  background-color: var(--background-color);
+  color: white;
   padding: 120px 0;
   scroll-margin-top: 90px;
   overflow: clip;
@@ -1716,6 +1716,9 @@ section,
   display: flex;
   flex-direction: column;
   padding-bottom: 15px;
+}
+.container{
+  padding-top:40px
 }
 
 .portfolio-details .portfolio-info ul strong {

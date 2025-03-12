@@ -7,13 +7,13 @@
   --default-color: #d1d5db;
   --heading-color: #fff;
   --nav-dropdown-background-color: #202123;
-  --nav-dropdown-color: #fff;
+  --nav-dropdown-color: #fff;offcanvasSidebar
 }
 
 /* Chat Sidebar Styles */
 #offcanvasSidebar {
   background-color: var(--background-color);
-  width: 260px;
+  width: 400px;
 }
 
 #offcanvasSidebar .offcanvas-header {
@@ -34,6 +34,7 @@
   color: var(--accent-color);
   border-color: var(--accent-color);
   font-size: 14px;
+  margin-top:100px
 }
 
 .today-label {
@@ -77,7 +78,6 @@
   flex-direction: column;
   background-color: var(--background-color);
   color: var(--default-color);
-  height: calc(100vh - 160px);
 }
 
 .message {
@@ -145,6 +145,7 @@
 /* Chat App Styles */
 .chat-app {
   background-color: var(--background-color);
+  min-height:98vh
 }
 
 .mobile-sidebar-toggle {
@@ -169,4 +170,60 @@
 /* Chatbot Container Styles */
 .chatbot-container {
   background-color: var(--background-color);
+}
+/* ChatSidebar.css */
+.chat-item {
+  position: relative;
+}
+
+.clear-chat-button {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Adjust as needed */
+  transform: translateY(-50%);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.2rem;
+}
+
+
+
+/* Center the token info */
+.token-info {
+  display: flex;          /* Use flexbox */
+  justify-content: center; /* Center horizontally */
+  align-items: center;    /* Center vertically (optional) */
+  padding: 8px;          /* Add some padding for spacing */
+}
+
+.token-info-text {
+  text-align: center;     /* Ensure text is centered within its container */
+}
+/* Adjust the message content to handle long text */
+.message-content {
+  word-wrap: break-word;      /* Allow long words to break and wrap */
+  overflow-wrap: break-word;   /* Modern alternative to word-wrap */
+  white-space: pre-wrap;       /* Preserve line breaks and wrap */
+  /* max-width: 100%;              Limit the width to the container (optional) */
+}
+
+/* Default max-height (for larger screens) */
+.chat-display {
+  max-height: 800px; /* Increased height */
+  overflow-y: auto;
+  padding-top: 100px;
+}
+
+/* Media query for smaller screens (e.g., tablets and phones) */
+@media (max-width: 768px) {
+  .chat-display {
+    max-height: 500px; /* Adjust for smaller screens */
+  }
+}
+
+/* Further adjustments for even smaller screens (phones) */
+@media (max-width: 480px) {
+  .chat-display {
+    max-height: 500px; /* Fine-tune for phones */
+  }
 }

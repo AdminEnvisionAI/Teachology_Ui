@@ -26,7 +26,7 @@ const routes = [
 ];
 
 const SideBar = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true); // Always open sidebar
   const [isMobile, setIsMobile] = useState(false);
   const [sidebarOpenMobile, setSidebarOpenMobile] = useState(false);
   const location = useLocation();
@@ -46,17 +46,7 @@ const SideBar = ({ children }) => {
     setSidebarOpenMobile(!sidebarOpenMobile);
   };
 
-  const handleMouseEnter = () => {
-    if (!isMobile) {
-      setIsOpen(true);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (!isMobile) {
-      setIsOpen(false);
-    }
-  };
+  // Removed handleMouseEnter and handleMouseLeave as sidebar is always open
 
   const inputAnimation = {
     hidden: {
@@ -119,9 +109,7 @@ const SideBar = ({ children }) => {
               ? sidebarOpenMobile
                 ? "150px"
                 : "0px" // Mobile open/close width
-              : isOpen
-              ? "150px"
-              : "35px", // Desktop hover logic
+              : "150px", // Desktop fixed open width
             transition: {
               duration: 0.3,
               type: "spring",
@@ -129,8 +117,7 @@ const SideBar = ({ children }) => {
             },
           }}
           className={`sidebar ${sidebarOpenMobile ? "open" : ""}`}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          // Removed onMouseEnter and onMouseLeave
         >
           <div className="top_section">
             <div className="bars">{/*  Removed redundant FaBars  */}</div>
@@ -148,12 +135,12 @@ const SideBar = ({ children }) => {
                   }`}
                   activeClassName="active"
                   style={{
-                    color: "var(--default-color)",
+                    color: "var(--text-color)", // Changed to text color
                   }}
                 >
                   <div
                     className="icon"
-                    style={{ color: "var(--default-color)" }}
+                    style={{ color: "var(--text-color)" }} // Changed to text color
                   >
                     {route.icon}
                   </div>
@@ -165,7 +152,7 @@ const SideBar = ({ children }) => {
                         animate="show"
                         exit="hidden"
                         className="link_text"
-                        style={{ color: "var(--default-color)" }}
+                        style={{ color: "var(--text-color)" }} // Changed to text color
                       >
                         {route.name}
                       </motion.div>
