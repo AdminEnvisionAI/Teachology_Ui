@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Form } from "react-bootstrap";
 import { FaPlus, FaTrash } from "react-icons/fa"; // Import FaTrash
-import "../assets/css/ChatBot.css"; // Keep your original styles
 import "../assets/css/chatbot.css"; // Use Chatbot1's styles
 import { useDispatch, useSelector } from "react-redux";
 import {
