@@ -580,7 +580,6 @@ function ChatBot() {
       fetchTokenInfo(userMessage);
     } finally {
       reset();
-      setSelectedFile(null);
       setPreview(null);
       setTextareaHeight("auto");
     }
