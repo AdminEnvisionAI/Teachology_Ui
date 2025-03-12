@@ -29,6 +29,14 @@ const Tools = () => {
         );
         const historyData = response.data;
 
+        // Add a check here to ensure response.data is not null or undefined
+        if (!historyData || !Array.isArray(historyData)) {
+          console.warn("History data is invalid:", historyData);
+          setRecommendedToolsByUserHistory([]); // Or handle the error appropriately
+          return;
+        }
+
+
         const toolFrequency = {};
         historyData.forEach((item) => {
           const tool = item.tool;
@@ -44,11 +52,13 @@ const Tools = () => {
         // Use toolDetails.recommendedTools instead of recommendedTools
         const top3ToolsDetails = top3Tools.map((toolName) => {
           return toolDetails.recommendedTools.find((tool) => tool.title === toolName);
-        });
+        }).filter(tool => tool !== undefined); // Filter out undefined results
 
         setRecommendedToolsByUserHistory(top3ToolsDetails);
       } catch (error) {
         console.error("Error fetching history:", error);
+        // Optionally, set an empty array or a default state here to avoid errors
+        setRecommendedToolsByUserHistory([]);
       }
     };
 
@@ -102,35 +112,37 @@ const Tools = () => {
           <h5 className="mb-4">Recommended For You</h5>
           <div className="row">
             {recommendedToolsByUserHistory?.map((tool, index) => (
-              <div className="col-lg-4" key={`recommended-${index}`}>
-                <div className="card card-margin tool-card-custom">
-                  <div className="card-body">
-                    <div className="widget-49">
-                      <div className="widget-49-title-wrapper">
-                        <div className="widget-49-date-primary">
-                          <img
-                            src={tool.image}
-                            alt={tool.title}
-                            className="tool-image-custom"
-                          />
+              tool ? ( // Add a check here to make sure tool is not null or undefined
+                <div className="col-lg-4" key={`recommended-${index}`}>
+                  <div className="card card-margin tool-card-custom">
+                    <div className="card-body">
+                      <div className="widget-49">
+                        <div className="widget-49-title-wrapper">
+                          <div className="widget-49-date-primary">
+                            <img
+                              src={tool.image}
+                              alt={tool.title}
+                              className="tool-image-custom"
+                            />
+                          </div>
+                          <div className="widget-49-meeting-info">
+                            <span className="widget-49-pro-title">{tool.title}</span>
+                          </div>
                         </div>
-                        <div className="widget-49-meeting-info">
-                          <span className="widget-49-pro-title">{tool.title}</span>
-                        </div>
-                      </div>
 
-                      <div className="widget-49-meeting-action">
-                        <button
-                          className="btn btn-sm use-tool-button"
-                          onClick={() => handleCardClick(tool)}
-                        >
-                          Use Tool
-                        </button>
+                        <div className="widget-49-meeting-action">
+                          <button
+                            className="btn btn-sm use-tool-button"
+                            onClick={() => handleCardClick(tool)}
+                          >
+                            Use Tool
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : null
             ))}
           </div>
         </>

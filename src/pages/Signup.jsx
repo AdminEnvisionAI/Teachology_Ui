@@ -76,8 +76,7 @@ function Signup() {
           withCredentials: true,
         }
       );
-
-      if (response.data.status === 200) {
+      if (response.data.status === 200 || response.data.status === 201) {
         setSuccessMessage(response.data.message || "Signup successful!");
         // Clear form fields after successful signup
         setName("");
@@ -93,6 +92,7 @@ function Signup() {
           navigate("/login"); // Navigate only on success
         }, 2000);
       } else {
+        // Use response.data.message for error message if available
         setErrorMessage(response.data.message || "Signup failed.");
       }
     } catch (error) {

@@ -8,7 +8,7 @@ function Footer() {
         <div className="copyright">
           <p>
             © <span>Copyright</span>{" "}
-            <strong className="sitename">EasyFolio</strong>{" "}
+            <strong className="sitename">Contact@envisionaitech.com</strong>{" "}
             <span>All Rights Reserved</span>
           </p>
         </div>
@@ -26,9 +26,7 @@ function Footer() {
             <i className="bi bi-linkedin"></i>
           </a>
         </div>
-        <div className="credits">
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
+      
       </div>
     </footer>
   );
