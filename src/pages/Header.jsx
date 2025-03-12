@@ -54,7 +54,7 @@ function Header() {
     return (
         <header id="header" className="header d-flex align-items-center sticky-top">
             <div className="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-                <Link to="/" className="logo d-flex align-items-center me-auto me-xl-0">
+                <Link to="/" className="logo d-flex align-items-center  me-xl-0">
                     <img
                         src="/assets/logo.png"
                         alt="EasyFolio Logo"
@@ -132,7 +132,7 @@ function Header() {
                                     style={{ objectFit: "cover", marginRight: "5px" }}
                                     alt="Profile"
                                 />
-                                {auth.username || "Profile"}
+                                 <span className="d-none d-md-inline">{auth.username || "Profile"}</span>
                             </div>
                         </OverlayTrigger>
                     </div>
