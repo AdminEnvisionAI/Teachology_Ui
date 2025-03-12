@@ -23,6 +23,11 @@ const routes = [
     name: "Output History",
     icon: <AiFillHeart />,
   },
+  {
+    path: "/upgrade",
+    name: "Upgrade",
+    icon: <MdMessage />,
+  },
 ];
 
 const SideBar = ({ children }) => {
@@ -107,9 +112,9 @@ const SideBar = ({ children }) => {
           animate={{
             width: isMobile
               ? sidebarOpenMobile
-                ? "150px"
+                ? "200px"
                 : "0px" // Mobile open/close width
-              : "150px", // Desktop fixed open width
+              : "200px", // Desktop fixed open width
             transition: {
               duration: 0.3,
               type: "spring",

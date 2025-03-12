@@ -5,7 +5,7 @@
 }
 
 .sidebar {
-  background: #007bff; /* Light blue-gray; modern, clean */
+  background: mediumslateblue; /* Light blue-gray; modern, clean */
   color: var(--default-color); /* Use variable for default color */
   height: 100vh;
   overflow-y: auto;
@@ -13,7 +13,7 @@
   top: 0;
   left: 0;
   z-index: 10; /* Ensure it's above other content */
-  width: 45px; /* Default narrow width */
+  width: 200px; /* Default narrow width */
   transition: width 0.3s ease; /* Smooth transition */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
 }

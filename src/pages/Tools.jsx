@@ -120,12 +120,6 @@ const Tools = () => {
                       </div>
 
                       <div className="widget-49-meeting-action">
-                        <button
-                          className="btn btn-sm use-tool-button"
-                          onClick={() => handleCardClick(tool)}
-                        >
-                          Use Tool
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -137,7 +131,7 @@ const Tools = () => {
       )}
 
 
-      {remainingFilteredTools.length > 0 && (
+      {/* {remainingFilteredTools.length > 0 && (
         <>
           <h5 className="mb-4">All Tools</h5>
           <div className="row">
@@ -174,7 +168,43 @@ const Tools = () => {
             ))}
           </div>
         </>
-      )}
+      )} */}
+
+{remainingFilteredTools.length > 0 && (
+  <>
+    <h5 className="mb-4">All Tools</h5>
+    <div className="row">
+      {remainingFilteredTools?.map((tool, index) => (
+        <div className="col-lg-4" key={`remaining-${index}`}>
+          <div 
+            className="card card-margin tool-card-custom clickable-card"
+            onClick={() => handleCardClick(tool)}
+            style={{ cursor: "pointer" }} // Change cursor to indicate clickability
+          >
+            <div className="card-body">
+              <div className="widget-49">
+                <div className="widget-49-title-wrapper">
+                  <div className="widget-49-date-primary">
+                    <img
+                      src={tool.image}
+                      alt={tool.title}
+                      className="tool-image-custom"
+                    />
+                  </div>
+                  <div className="widget-49-meeting-info">
+                    <span className="widget-49-pro-title">{tool.title}</span>
+                  </div>
+                </div>
+                <p>  
+                    {tool.content}.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </>
+)}
 
 
       {(remainingFilteredTools.length === 0 && recommendedToolsByUserHistory.length === 0) && (
