@@ -135,30 +135,6 @@ const SideBar = ({ children }) => {
           <div className="top_section">
             <div className="bars">{/*  Removed redundant FaBars  */}</div>
           </div>
-          <div className="search">
-            <div
-              className="search_icon"
-              style={{ color: "var(--default-color)" }}
-            >
-              <BiSearch />
-            </div>
-            <AnimatePresence>
-              {isOpen && (
-                <motion.input
-                  initial="hidden"
-                  animate="show"
-                  exit="hidden"
-                  variants={inputAnimation}
-                  type="text"
-                  placeholder="Search"
-                  style={{
-                    backgroundColor: "var(--surface-color)",
-                    color: "var(--default-color)",
-                  }}
-                />
-              )}
-            </AnimatePresence>
-          </div>
           <section className="routes">
             {routes.map((route, index) => {
               return (

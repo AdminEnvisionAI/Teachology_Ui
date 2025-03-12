@@ -25,8 +25,8 @@ function OutputHistory() {
   const dispatch = useDispatch();
   const history = useSelector(selectHistory);
   const [allTools, setAllTools] = useState([]);
-  // const userId = useSelector(selectUserId);
-  const userId = "67b84d6e33d491ca16e0d455";
+  const userId = useSelector(selectUserId);
+  
 
   const fetchHistoryData = useCallback(async () => {
     setLoading(true);

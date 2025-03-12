@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {
+  Image,
+  OverlayTrigger,
+  Popover,
+  Button,
+} from "react-bootstrap";
 
 function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const auth = useSelector((state) => state.auth); // Get authentication info from Redux
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   const toggleNav = () => {
@@ -35,6 +44,39 @@ function Header() {
     };
   }, []);
 
+  const handleLogout = () => {
+    navigate("/logout"); // Redirect to the logout route
+  };
+
+  const renderProfilePopover = (props) => (
+    <Popover {...props} id="profile-popover">
+      <Popover.Header as="h3">User Profile</Popover.Header>
+      <Popover.Body>
+        <div className="d-flex flex-column align-items-center">
+          <Image
+            src={auth.profile_image || "/assets/default-profile.png"} // Use a default image path if profile_image is null
+            roundedCircle
+            width={80}
+            height={80}
+            style={{ objectFit: "cover", marginBottom: "10px" }}
+            alt="User Profile"
+          />
+          <p className="mb-1">
+            <strong>Username:</strong> {auth.username || "Guest"}
+          </p>
+          <p className="mb-1">
+            <strong>Email:</strong> {auth.user}
+          </p>
+          <Button variant="danger" onClick={handleLogout}>
+            Logout
+          </Button>
+        </div>
+      </Popover.Body>
+    </Popover>
+  );
+
+  let navContent;
+
   return (
     <header id="header" className="header d-flex align-items-center sticky-top">
       <div className="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
@@ -48,74 +90,90 @@ function Header() {
 
         <nav id="navmenu" className={`navmenu ${isNavOpen ? "active" : ""}`}>
           <ul>
-            <li>
-              <Link
-                to="/"
-                className={location.pathname === "/" ? "active" : ""}
-                onClick={closeMobileNav}
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/portfolio"
-                className={location.pathname === "/portfolio" ? "active" : ""}
-                onClick={closeMobileNav}
-              >
-                Portfolio
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/services"
-                className={location.pathname === "/services" ? "active" : ""}
-                onClick={closeMobileNav}
-              >
-                Services
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                className={location.pathname === "/contact" ? "active" : ""}
-                onClick={closeMobileNav}
-              >
-                Contact
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/login"
-                className={location.pathname === "/login" ? "active" : ""}
-                onClick={closeMobileNav}
-              >
-                Login
-              </Link>
-            </li>
+            {!auth.user ? (
+              <>
+                <li>
+                  <Link
+                    to="/"
+                    className={location.pathname === "/" ? "active" : ""}
+                    onClick={closeMobileNav}
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/portfolio"
+                    className={location.pathname === "/portfolio" ? "active" : ""}
+                    onClick={closeMobileNav}
+                  >
+                    Portfolio
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/services"
+                    className={location.pathname === "/services" ? "active" : ""}
+                    onClick={closeMobileNav}
+                  >
+                    Services
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/contact"
+                    className={location.pathname === "/contact" ? "active" : ""}
+                    onClick={closeMobileNav}
+                  >
+                    Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/login"
+                    className={location.pathname === "/login" ? "active" : ""}
+                    onClick={closeMobileNav}
+                  >
+                    Login
+                  </Link>
+                </li>
+              </>
+            ) : null}
           </ul>
+        </nav>
+
+
+        {auth.user ? (
+          // Profile provider replaces toggle menu when logged in
+          <div className="ms-auto">
+            {/* ms-auto is margin-start: auto */}
+            <OverlayTrigger
+              trigger="click"
+              placement="bottom"
+              overlay={renderProfilePopover}
+            >
+              <span style={{ cursor: "pointer" }}>
+                <Image
+                  src={auth.profile_image || "/assets/default-profile.png"}
+                  roundedCircle
+                  width={30}
+                  height={30}
+                  style={{ objectFit: "cover", marginRight: "5px" }}
+                  alt="Profile"
+                />
+                {auth.username || "Profile"}
+              </span>
+            </OverlayTrigger>
+          </div>
+        ) : (
+          // Render the hamburger menu when not logged in
           <i
             className={`mobile-nav-toggle d-xl-none bi ${
               isNavOpen ? "bi-x" : "bi-list"
             }`}
             onClick={toggleNav}
-          ></i>
-        </nav>
-
-        <div className="header-social-links">
-          <a href="#" className="twitter">
-            <i className="bi bi-twitter-x"></i>
-          </a>
-          <a href="#" className="facebook">
-            <i className="bi bi-facebook"></i>
-          </a>
-          <a href="#" className="instagram">
-            <i className="bi bi-instagram"></i>
-          </a>
-          <a href="#" className="linkedin">
-            <i className="bi bi-linkedin"></i>
-          </a>
-        </div>
+          />
+        )}
       </div>
     </header>
   );

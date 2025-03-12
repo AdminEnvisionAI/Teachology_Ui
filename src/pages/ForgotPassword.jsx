@@ -1,8 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import "../assets/css/login.css";
 import { Link } from "react-router-dom";
+import {
+  forgotPassword as forgotPasswordEndpoint,
+} from "../../src/config/config";
 
 function ForgotPassword() {
+  const [email, setEmail] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false); // Add loading state
+  const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
+
+  const handleRequestResetLink = async () => {
+    setLoading(true); // Set loading to true when the request starts
+    setErrorMessage(""); // Clear any existing error messages
+    setSuccessMessage(""); // Clear any existing success messages
+
+    try {
+      const response = await fetch(`${apiUrl}${forgotPasswordEndpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: email })
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200) { // Check response.status instead of data.status
+        setSuccessMessage(
+          "A password reset link has been sent to your email address."
+        );
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 5000);
+      } else {
+        // Handle non-200 status codes
+        setErrorMessage(data.message || "Failed to request password reset."); // Use data.message if available
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 5000);
+      }
+    } catch (error) {
+      console.error("Forgot password request failed:", error);
+      let message = "Failed to request password reset. Please try again.";
+
+      //Improved error handling: use error.message for a basic error message
+      if (error.message) {
+        message = error.message;
+      }
+      setErrorMessage(message);
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 5000);
+    } finally {
+      setLoading(false); // Set loading to false when the request finishes (success or failure)
+    }
+  };
+
   return (
     <div className="login-container" id="login">
       <section className="vh-100 shorter-section">
@@ -37,12 +93,27 @@ function ForgotPassword() {
                           instructions on how to reset your password.
                         </p>
 
+                         {successMessage && (
+                            <div className="alert alert-success" role="alert">
+                              {successMessage}
+                            </div>
+                          )}
+
+                          {errorMessage && (
+                            <div className="alert alert-danger" role="alert">
+                              {errorMessage}
+                            </div>
+                          )}
+
                         <div className="form-outline mb-4">
                           <input
                             type="email"
                             id="form2ExampleEmail"
                             className="form-control form-control-lg rounded-input"
                             placeholder="Email address"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            disabled={loading} // Disable input while loading
                           />
                         </div>
 
@@ -50,8 +121,10 @@ function ForgotPassword() {
                           <button
                             className="btn btn-dark btn-lg btn-block login-button"
                             type="button"
+                            onClick={handleRequestResetLink}
+                            disabled={loading} // Disable button while loading
                           >
-                            Reset Password
+                            {loading ? "Sending..." : "Reset Password"}
                           </button>
                         </div>
 

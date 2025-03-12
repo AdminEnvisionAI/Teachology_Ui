@@ -42,6 +42,7 @@ const ToolDetail = () => {
     handleSubmit,
     reset,
     setValue, // Add setValue
+    getValues, // Add getValues
     formState: { errors },
   } = useForm({
     mode: "onSubmit", // Validate on submit
@@ -175,10 +176,20 @@ const ToolDetail = () => {
   };
 
   const handleSelectChange = (newValue, fieldName) => {
-    setValue(fieldName, newValue ? newValue.value : ""); // Update react-hook-form value
+    setValue(fieldName, newValue ? newValue.value : "");
     dispatch(
-      updateFormData({ name: fieldName, value: newValue ? newValue.value : "" })
+      updateFormData({
+        name: fieldName,
+        value: newValue ? newValue.value : "",
+      })
     );
+  };
+
+  // Function to handle manual input change and update Redux store
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setValue(name, value);
+    dispatch(updateFormData({ name: name, value: value }));
   };
 
   if (!tool) {
@@ -241,10 +252,11 @@ const ToolDetail = () => {
                         placeholder={field.placeholder}
                         className="form-control form-control-sm"
                         {...register(field.name, rules)}
+                        onChange={handleInputChange}
                       />
                     ) : field.type === "select" ? (
                       <CreatableSelect
-                      className="selectbox"
+                        className="selectbox"
                         id={field.name}
                         options={field.options?.map((option) => ({
                           value: option,
@@ -255,7 +267,16 @@ const ToolDetail = () => {
                         }
                         placeholder={field.placeholder || "Select or create..."}
                         isClearable
-                        {...register(field.name, rules)} // Register the field
+                        isValidNewOption={() => false}
+                        value={
+                          field.options
+                            ?.map((option) => ({
+                              value: option,
+                              label: option,
+                            }))
+                            .find((opt) => opt.value === formData[field.name]) ||
+                          null
+                        }
                       />
                     ) : (
                       <input
@@ -264,6 +285,7 @@ const ToolDetail = () => {
                         className="form-control form-control-sm"
                         placeholder={field.placeholder}
                         {...register(field.name, rules)}
+                        onChange={handleInputChange}
                       />
                     )}
                     {errors[field.name] && (

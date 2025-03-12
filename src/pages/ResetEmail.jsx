@@ -2,7 +2,7 @@ import React from "react";
 import "../assets/css/login.css";
 import { Link } from "react-router-dom";
 
-function OTPEmail() {
+function ResetEmail() {
   return (
     <div className="login-container">
       <section className="vh-100 shorter-section">
@@ -72,4 +72,4 @@ function OTPEmail() {
   );
 }
 
-export default OTPEmail;
+export default ResetEmail;

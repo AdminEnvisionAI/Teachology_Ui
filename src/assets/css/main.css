@@ -99,6 +99,7 @@ h6 {
   font-family: var(--heading-font);
 }
 
+
 /* PHP Email Form Messages
 ------------------------------*/
 .php-email-form .error-message {
@@ -214,7 +215,6 @@ h6 {
   .header .header-container {
     margin-left: 10px;
     margin-right: 10px;
-    padding: 10px 5px 10px 15px;
   }
 
   .header .logo {
@@ -340,7 +340,7 @@ h6 {
   }
 }
 
-/* Navmenu - Mobile */
+/* Navmenu - Mobile (Revised - with Link Effects) */
 @media (max-width: 1199px) {
   .mobile-nav-toggle {
     color: var(--nav-color);
@@ -363,26 +363,34 @@ h6 {
     inset: 60px 20px 20px 20px;
     padding: 10px 0;
     margin: 0;
-    border-radius: 6px;
+    border-radius: 12px;
     background-color: var(--nav-mobile-background-color);
     overflow-y: auto;
     transition: 0.3s;
     z-index: 9998;
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   .navmenu a,
   .navmenu a:focus {
-    color: var(--nav-dropdown-color);
-    padding: 10px 20px;
+    padding: 12px 20px;
     font-family: var(--nav-font);
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: space-between;
     white-space: nowrap;
-    transition: 0.3s;
+    transition: color 0.3s, background-color 0.3s; /* Smooth transition for color and background */
+    color: var(--nav-color);
+    text-decoration: none;
+    border-radius: 6px; /* Add border-radius for a rounded effect on hover */
+  }
+
+  .navmenu a:hover,
+  .navmenu a:focus {
+    background-color: color-mix(in srgb, var(--accent-color), transparent 95%); /* Subtle background highlight on hover/focus */
+    color: var(--nav-dropdown-hover-color);  /* Change text color on hover/focus */
   }
 
   .navmenu a i,
@@ -396,20 +404,21 @@ h6 {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: 0.3s;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for icon */
     background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+    color: var(--nav-color);
   }
 
-  .navmenu a i:hover,
-  .navmenu a:focus i:hover {
+  .navmenu a:hover i,
+  .navmenu a:focus i {
     background-color: var(--accent-color);
     color: var(--contrast-color);
   }
 
-  .navmenu a:hover,
   .navmenu .active,
   .navmenu .active:focus {
     color: var(--nav-dropdown-hover-color);
+    background-color: color-mix(in srgb, var(--accent-color), transparent 85%); /* More prominent highlight for active link */
   }
 
   .navmenu .active i,
@@ -427,13 +436,19 @@ h6 {
     margin: 10px 20px;
     background-color: var(--nav-dropdown-background-color);
     border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-    box-shadow: none;
-    transition: all 0.5s ease-in-out;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    border-radius: 8px;
   }
 
   .navmenu .dropdown ul ul {
-    background-color: rgba(33, 37, 41, 0.1);
+    background-color: rgba(33, 37, 41, 0.05);
   }
+
+    .navmenu .dropdown ul a:hover,
+    .navmenu .dropdown ul a:focus {
+      background-color: color-mix(in srgb, var(--accent-color), transparent 95%); /* Subtle highlight for dropdown items */
+    }
 
   .navmenu .dropdown > .dropdown-active {
     display: block;
@@ -458,15 +473,15 @@ h6 {
     position: fixed;
     overflow: hidden;
     inset: 0;
-    background: rgba(33, 37, 41, 0.8);
+    background: rgba(33, 37, 41, 0.9);
     transition: 0.3s;
+    backdrop-filter: blur(5px);
   }
 
   .mobile-nav-active .navmenu > ul {
     display: block;
   }
 }
-
 .footer .copyright p {
   margin-bottom: 0;
 }
@@ -637,7 +652,7 @@ section,
 .section {
   color: var(--default-color);
   background-color: var(--background-color);
-  padding: 60px 0;
+  padding: 120px 0;
   scroll-margin-top: 90px;
   overflow: clip;
 }

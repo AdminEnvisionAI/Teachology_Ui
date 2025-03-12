@@ -185,8 +185,8 @@ main {
 /* Mobile Menu Toggle Button */
 .mobile-menu-toggle {
   position: fixed;
-  top: 10px; /* Position in the top corner */
-  left: 10px; /* Position in the top corner */
+  top: -80px; /* Position in the top corner */
+  left: 0; /* Position in the top corner */
   z-index: 1001; /* Ensure it's above the sidebar */
   background: rgba(255, 255, 255, 0.8); /* Optional: Add a background */
   border-radius: 5px;

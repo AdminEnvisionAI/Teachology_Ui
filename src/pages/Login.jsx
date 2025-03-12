@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../assets/css/login.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { useGoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/authSlice";
+import { jwtDecode } from "jwt-decode"; // Import jwtDecode
 
 // Function to validate email format
 const isValidEmail = (email) => {
@@ -22,7 +20,7 @@ function Login() {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
   const dispatch = useDispatch();
-
+  const [buttonWidth, setButtonWidth] = useState(140);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,6 +28,31 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  useEffect(() => {
+    const updateButtonWidth = () => {
+      const width = window.innerWidth;
+
+      if (width < 576) {
+        setButtonWidth(240); // Extra Small (xs)
+      } else if (width >= 576 && width < 768) {
+        setButtonWidth(280); // Small (sm)
+      } else if (width >= 768 && width < 992) {
+        setButtonWidth(320); // Medium (md)
+      } else if (width >= 992 && width < 1200) {
+        setButtonWidth(360); // Large (lg)
+      } else {
+        setButtonWidth(400); // Extra Large (xl)
+      }
+    };
+
+    updateButtonWidth(); // Set width on load
+    window.addEventListener("resize", updateButtonWidth); // Update on window resize
+
+    return () => {
+      window.removeEventListener("resize", updateButtonWidth);
+    };
+  }, []);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -58,12 +81,20 @@ function Login() {
     return isValid;
   };
 
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage("");
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage]);
+
   const handleLoginClick = async () => {
     if (!validateForm()) {
       return;
     }
-    navigate("/home");
-
     setLoading(true);
     setErrorMessage("");
 
@@ -117,23 +148,13 @@ function Login() {
     navigate("/"); // Navigate to the home screen
   };
 
-  const handleGoogleLoginSuccess = async (tokenResponse) => {
+  const handleGoogleLoginSuccess = async (credentialResponse) => {
     try {
-      const accessToken = tokenResponse.access_token;
-
-      // Use access token to fetch user data from Google API
-      const response = await axios.get(
-        "https://www.googleapis.com/oauth2/v3/userinfo",
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      const userEmail = response.data.email;
-      const profileImage = response.data.picture;
-      const username = response.data.name;
+      const decodedToken = jwtDecode(credentialResponse.credential);
+      const userEmail = decodedToken.email;
+      const profileImage = decodedToken.picture;
+      const googleToken = credentialResponse.credential; // Use the JWT as token
+      const username = decodedToken.name;
 
       // Send user data to your backend
       const backendResponse = await axios.post(
@@ -142,7 +163,7 @@ function Login() {
           email: userEmail,
           username: username,
           profile_image: profileImage,
-          password: accessToken, // Or any other suitable identifier
+          password: googleToken, // Or any other suitable identifier
           role: "teacher",
         },
         {
@@ -153,7 +174,7 @@ function Login() {
       dispatch(
         setUser({
           user: userEmail,
-          token: accessToken,
+          token: googleToken,
           username: username,
           profile_image: profileImage,
           user_id: backendResponse.data.id,
@@ -162,6 +183,10 @@ function Login() {
       navigate("/home");
     } catch (error) {
       console.error("Google login failed:", error);
+      console.error(
+        "Google login error details:",
+        error.response ? error.response.data : error.message
+      ); // Log more details
       setErrorMessage("Google login failed. Please try again.");
     }
   };
@@ -275,36 +300,37 @@ function Login() {
                         <div className="d-flex justify-content-between align-items-center mb-4">
                           <p className="mb-0">Or login with:</p>
                         </div>
-
-                        <div>
-                          <GoogleOAuthProvider clientId={clientId}>
-                            {/* Conditionally render only when within GoogleOAuthProvider */}
-                            <GoogleLoginButton
-                              handleGoogleLoginSuccess={
-                                handleGoogleLoginSuccess
-                              }
-                              handleGoogleLoginError={handleGoogleLoginError}
+                       <div className="mb-2">
+                       <GoogleOAuthProvider clientId={clientId}>
+                          <div className="d-flex justify-content-center">
+                            <GoogleLogin
+                              onSuccess={handleGoogleLoginSuccess}
+                              onError={() => setErrorMessage("Google login failed. Please try again.")}
+                              text="continue_with"
+                              theme="outline"
+                              size="large"
+                              width={buttonWidth} // Dynamic width
                             />
-                          </GoogleOAuthProvider>
+                          </div>
+                        </GoogleOAuthProvider>
+                       </div>
 
-                          <button
-                            className="btn btn-lg btn-block btn-facebook"
-                            onClick={handleFacebookLoginClick}
-                          >
-                            <FontAwesomeIcon
-                              icon={faFacebook}
-                              className="me-2"
-                            />
-                            Login with Facebook
-                          </button>
+                       <div className="d-flex gap-3 align-items-center mt-3">
+                            <Link
+                              className="small text-muted"
+                              to="/forgot-password"
+                            >
+                              Forgot password?
+                            </Link>
+
+                            <Link
+                              className="small text-muted"
+                              to="/verify-email-otp" // Change to your desired route
+                            >
+                              Login via Mobile OTP
+                            </Link>
                         </div>
-
-                        <Link
-                          className="small text-muted"
-                          to="/forgot-password"
-                        >
-                          Forgot password?
-                        </Link>
+                        
                         <p className="mb-5 pb-lg-2 register-text">
                           Don't have an account?
                           <Link to="/signup" className="register-link">
@@ -329,32 +355,5 @@ function Login() {
     </div>
   );
 }
-
-// Create a separate component to encapsulate Google Login logic
-const GoogleLoginButton = ({
-  handleGoogleLoginSuccess,
-  handleGoogleLoginError,
-}) => {
-  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-  const googleLogin = useGoogleLogin({
-    clientId: clientId,
-    onSuccess: (tokenResponse) => {
-      handleGoogleLoginSuccess(tokenResponse);
-    },
-    onError: (error) => {
-      handleGoogleLoginError();
-    },
-  });
-
-  return (
-    <button
-      className="btn btn-lg btn-block btn-google mb-2"
-      onClick={() => googleLogin()}
-    >
-      <FontAwesomeIcon icon={faGoogle} className="me-2" />
-      Login with Google
-    </button>
-  );
-};
 
 export default Login;
