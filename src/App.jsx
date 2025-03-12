@@ -216,7 +216,7 @@ function App() {
 }
 
 function AppContent() {
-  const { isLoggedIn, onLogout, user } = useAuth();
+  const { isLoggedIn, onLogout, user } = true; //useAuth();
   const location = useLocation(); // Use useLocation hook
 
   const showFooter = location.pathname !== '/chatbot'; // Conditionally show the footer
@@ -274,12 +274,12 @@ function AppContent() {
           <Route
             path="/tools" // Route for the main Tools page
             element={
-              <RequireAuth>
+              // <RequireAuth>
                 <>
                   <Home />
                   <Tools />
                 </>
-              </RequireAuth>
+              // </RequireAuth>
             }
           />
 
@@ -298,7 +298,7 @@ function AppContent() {
           {/* Public routes accessible to all (including logged out users) */}
           <Route
             path="/"
-            element={isLoggedIn ? <Navigate to="/home" replace /> : <Landing />}
+            element={1 == 1 ? <Navigate to="/home" replace /> : <Landing />}
           />
           <Route
             path="/about"
