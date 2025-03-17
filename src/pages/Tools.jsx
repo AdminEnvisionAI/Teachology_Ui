@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "../assets/css/tools.css";
 import toolDetails from "../assets/data/toolDetails.json";
-import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { selectUserId } from "../redux/authSlice";
 import axios from "axios";
 
 const Tools = () => {
-  const [tools, setTools] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [tools, setTools] = React.useState([]);
+  const [searchTerm, setSearchTerm] = React.useState("");
   const navigate = useNavigate();
   const userId = useSelector(selectUserId);
   const [recommendedToolsByUserHistory, setRecommendedToolsByUserHistory] =
-    useState([]);
+    React.useState([]);
   const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
-  useEffect(() => {
+  React.useEffect(() => {
     setTools(toolDetails.recommendedTools);
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchHistory = async () => {
       try {
         const response = await axios.get(
@@ -43,7 +43,9 @@ const Tools = () => {
 
         // Use toolDetails.recommendedTools instead of recommendedTools
         const top3ToolsDetails = top3Tools.map((toolName) => {
-          return toolDetails.recommendedTools.find((tool) => tool.title === toolName);
+          return toolDetails.recommendedTools.find(
+            (tool) => tool.title === toolName
+          );
         });
 
         setRecommendedToolsByUserHistory(top3ToolsDetails);
@@ -76,113 +78,109 @@ const Tools = () => {
       )
   );
 
-
   return (
-    <div className="container" id="tools">
-
+    <section id="tools" className="services section tools">
       {/* Search Bar */}
-      <div className="input-group mb-3" style={{ maxWidth: '300px' }}>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search tools..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          style={{ height: 'calc(1.5em + 0.75rem + 2px)' }}
-        />
-        <div className="input-group-append">
-          <span className="input-group-text" style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
-            <FontAwesomeIcon icon={faSearch} />
-          </span>
+      <div
+        className="container"
+        style={{ maxWidth: "400px", marginBottom: "20px" }}
+      >
+        <div className="input-group">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search tools..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            style={{ height: "calc(1.5em + 0.75rem + 2px)" }}
+          />
+          <div className="input-group-append">
+            <span
+              className="input-group-text"
+              style={{ height: "100%", display: "flex", alignItems: "center" }}
+            >
+              <FontAwesomeIcon icon={faSearch} />
+            </span>
+          </div>
         </div>
       </div>
 
-      {recommendedToolsByUserHistory?.length > 0 && (
-        <>
-          <h5 className="mb-4">Recommended For You</h5>
-          <div className="row">
-            {recommendedToolsByUserHistory?.map((tool, index) => (
-              <div className="col-lg-4" key={`recommended-${index}`}>
-                <div className="card card-margin tool-card-custom">
-                  <div className="card-body">
-                    <div className="widget-49">
-                      <div className="widget-49-title-wrapper">
-                        <div className="widget-49-date-primary">
-                          <img
-                            src={tool.image}
-                            alt={tool.title}
-                            className="tool-image-custom"
-                          />
-                        </div>
-                        <div className="widget-49-meeting-info">
-                          <span className="widget-49-pro-title">{tool.title}</span>
-                        </div>
-                      </div>
-
-                      <div className="widget-49-meeting-action">
-                        <button
-                          className="btn btn-sm use-tool-button"
-                          onClick={() => handleCardClick(tool)}
-                        >
-                          Use Tool
-                        </button>
-                      </div>
-                    </div>
+      <div className="container" data-aos="fade-up" data-aos-delay="100">
+        {recommendedToolsByUserHistory?.length > 0 && (
+          <>
+            <h5 className="mb-4">Recommended For You</h5>
+            <div className="row g-4">
+              {recommendedToolsByUserHistory?.map((tool, index) => (
+                <div
+                  className="col-xl-3 col-md-4 col-sm-6"
+                  key={`recommended-${index}`}
+                  data-aos="fade-up"
+                  data-aos-delay={`${200 + index * 100}`}
+                >
+                  <div className="service-item tool-card" onClick={() => handleCardClick(tool)} style={{cursor: 'pointer'}}>
+                    <img
+                      width={50}
+                      height={47}
+                      src={tool.image}
+                      alt={tool.title}
+                      className="tool-image"
+                    />
+                    <h3>
+                      {tool.title}
+                      {/* Removed Link Component here, the entire div is clickable now */}
+                    </h3>
+                    <p className="mb-4">
+                      We offer a variety of flexible AI learning options
+                    </p>
+                    {/* You can add a short description here if toolDetails has one */}
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
+              ))}
+            </div>
+          </>
+        )}
 
-
-      {remainingFilteredTools.length > 0 && (
-        <>
-          <h5 className="mb-4">All Tools</h5>
-          <div className="row">
-            {remainingFilteredTools?.map((tool, index) => (
-              <div className="col-lg-4" key={`remaining-${index}`}>
-                <div className="card card-margin tool-card-custom">
-                  <div className="card-body">
-                    <div className="widget-49">
-                      <div className="widget-49-title-wrapper">
-                        <div className="widget-49-date-primary">
-                          <img
-                            src={tool.image}
-                            alt={tool.title}
-                            className="tool-image-custom"
-                          />
-                        </div>
-                        <div className="widget-49-meeting-info">
-                          <span className="widget-49-pro-title">{tool.title}</span>
-                        </div>
-                      </div>
-
-                      <div className="widget-49-meeting-action">
-                        <button
-                          className="btn btn-sm use-tool-button"
-                          onClick={() => handleCardClick(tool)}
-                        >
-                          Use Tool
-                        </button>
-                      </div>
-                    </div>
+        {remainingFilteredTools.length > 0 && (
+          <>
+            <h5 className="mb-4 mt-5">All Tools</h5>
+            <div className="row g-4">
+              {remainingFilteredTools?.map((tool, index) => (
+                <div
+                  className="col-xl-3 col-md-4 col-sm-6"
+                  key={`remaining-${index}`}
+                  data-aos="fade-up"
+                  data-aos-delay={`${200 + index * 100}`}
+                >
+                  <div className="service-item tool-card" onClick={() => handleCardClick(tool)} style={{cursor: 'pointer'}}>
+                    <img
+                      width={50}
+                      height={47}
+                      src={tool.image}
+                      alt={tool.title}
+                      className="tool-image"
+                    />
+                    <h3>
+                      {tool.title}
+                    </h3>
+                    <p className="mb-4">
+                      We offer a variety of flexible AI learning options
+                    </p>
+                    {/* You can add a short description here if toolDetails has one */}
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
+              ))}
+            </div>
+          </>
+        )}
 
-
-      {(remainingFilteredTools.length === 0 && recommendedToolsByUserHistory.length === 0) && (
-        <div className="text-center">
-          <h4>No tools found matching your search.</h4>
-        </div>
-      )}
-    </div>
+        {remainingFilteredTools.length === 0 &&
+          recommendedToolsByUserHistory.length === 0 && (
+            <div className="text-center">
+              <h4>No tools found matching your search.</h4>
+            </div>
+          )}
+      </div>
+    </section>
   );
 };
 
