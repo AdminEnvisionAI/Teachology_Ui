@@ -1,10 +1,9 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { FaHome, FaBars, FaTimes } from "react-icons/fa"; // Import FaTimes for close icon
+import { FaHome, FaBars, FaTimes } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import { BiSearch, BiCog } from "react-icons/bi";
 import { AiFillHeart } from "react-icons/ai";
 import { useState, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import "../../assets/css/sidebar.css";
 
 const routes = [
@@ -26,12 +25,11 @@ const routes = [
   {
     path: "/upgrade",
     name: "Upgrade",
-    icon: <MdMessage />,
+    icon: <AiFillHeart />,
   },
 ];
 
 const SideBar = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(true); // Always open sidebar
   const [isMobile, setIsMobile] = useState(false);
   const [sidebarOpenMobile, setSidebarOpenMobile] = useState(false);
   const location = useLocation();
@@ -51,42 +49,6 @@ const SideBar = ({ children }) => {
     setSidebarOpenMobile(!sidebarOpenMobile);
   };
 
-  // Removed handleMouseEnter and handleMouseLeave as sidebar is always open
-
-  const inputAnimation = {
-    hidden: {
-      width: 0,
-      padding: 0,
-      transition: {
-        duration: 0.2,
-      },
-    },
-    show: {
-      width: "140px",
-      padding: "5px 15px",
-      transition: {
-        duration: 0.2,
-      },
-    },
-  };
-
-  const showAnimation = {
-    hidden: {
-      width: 0,
-      opacity: 0,
-      transition: {
-        duration: 0.2,
-      },
-    },
-    show: {
-      opacity: 1,
-      width: "auto",
-      transition: {
-        duration: 0.2,
-      },
-    },
-  };
-
   const isToolsLinkActive = () => {
     return location.pathname.startsWith("/tools");
   };
@@ -96,8 +58,6 @@ const SideBar = ({ children }) => {
       <div className="main-container">
         {isMobile && (
           <div className="mobile-menu-toggle">
-            {" "}
-            {/* Container for the hamburger and close button */}
             {!sidebarOpenMobile ? (
               <FaBars
                 onClick={toggleSidebarMobile}
@@ -108,24 +68,18 @@ const SideBar = ({ children }) => {
             )}
           </div>
         )}
-        <motion.div
-          animate={{
+        <div
+          className={`sidebar ${sidebarOpenMobile ? "open" : ""}`}
+          style={{
             width: isMobile
               ? sidebarOpenMobile
                 ? "200px"
-                : "0px" // Mobile open/close width
-              : "200px", // Desktop fixed open width
-            transition: {
-              duration: 0.3,
-              type: "spring",
-              damping: 10,
-            },
+                : "0px"
+              : "200px",
           }}
-          className={`sidebar ${sidebarOpenMobile ? "open" : ""}`}
-          // Removed onMouseEnter and onMouseLeave
         >
           <div className="top_section">
-            <div className="bars">{/*  Removed redundant FaBars  */}</div>
+            {/* Removed redundant FaBars */}
           </div>
           <section className="routes">
             {routes.map((route, index) => {
@@ -139,35 +93,14 @@ const SideBar = ({ children }) => {
                       : ""
                   }`}
                   activeClassName="active"
-                  style={{
-                    color: "var(--text-color)", // Changed to text color
-                  }}
                 >
-                  <div
-                    className="icon"
-                    style={{ color: "var(--text-color)" }} // Changed to text color
-                  >
-                    {route.icon}
-                  </div>
-                  <AnimatePresence>
-                    {(!isMobile || sidebarOpenMobile) && (
-                      <motion.div
-                        variants={showAnimation}
-                        initial="hidden"
-                        animate="show"
-                        exit="hidden"
-                        className="link_text"
-                        style={{ color: "var(--text-color)" }} // Changed to text color
-                      >
-                        {route.name}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  <div className="icon">{route.icon}</div>
+                  <div className="link_text">{route.name}</div>
                 </NavLink>
               );
             })}
           </section>
-        </motion.div>
+        </div>
 
         <main>{children}</main>
       </div>

@@ -1,58 +1,59 @@
 /* Sidebar */
+:root {
+  --text-color: #fff; /* Default text color */
+  --heading-color: #fff;
+  --surface-color: rgba(255, 255, 255, 0.1);
+  --accent-color: #f0db4f;
+  --default-color: #fff;
+}
+
 .main-container {
   display: flex;
-  margin-right: 50px;
 }
 
 .sidebar {
-  background: mediumslateblue; /* Light blue-gray; modern, clean */
-  color: var(--default-color); /* Use variable for default color */
+  background: #007bff;
+  color: var(--default-color);
   height: 100vh;
   overflow-y: auto;
-  position: fixed; /* Keep sidebar fixed */
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 10; /* Ensure it's above other content */
-  width: 200px; /* Default narrow width */
-  transition: width 0.3s ease; /* Smooth transition */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
-}
-.sidebar {
-  width: 200px; /* Widen on hover */
+  z-index: 10;
+  width: 200px; /* Set default width */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Mobile View Adjustment */
 @media (max-width: 768px) {
   .main-container {
-    margin-right: 0; /* Reset margin */
+    margin-right: 0;
   }
 
   main {
-    margin-left: 0; /* Reset main margin */
+    margin-left: 0;
   }
 
   .sidebar {
-    position: fixed; /* Ensure it stays fixed */
+    position: fixed;
     top: 0;
     left: 0;
-    height: 100vh; /* Occupy full viewport height */
+    height: 100vh;
     width: 0; /* Start collapsed */
-    overflow-x: hidden; /* Hide overflow content */
-    z-index: 1000; /* Ensure it's on top */
-    transition: width 0.3s ease-in-out; /* Smooth transition */
+    overflow-x: hidden;
+    z-index: 1000;
   }
 
   .sidebar.open {
-    width: 250px; /* Expand when open */
+    width: 200px; /* Expand when open */
   }
 
   .sidebar.open ~ main {
-    margin-left: 250px; /* Push main content when sidebar is open */
+    margin-left: 200px; /* Push main content when sidebar is open */
   }
 }
 
 .sidebar .top_section {
-  /* More specific selector */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -60,26 +61,22 @@
 }
 
 .sidebar .logo {
-  /* More specific selector */
   font-size: 18px;
   line-height: 0;
-  color: var(--heading-color); /* Use variable for heading color */
+  color: var(--heading-color);
 }
 
 .sidebar .bars {
-  /* More specific selector */
   width: 30px;
-  color: var(--default-color); /* Use variable for default color */
+  color: var(--default-color);
   cursor: pointer;
 }
 
 .sidebar .hide {
-  /* More specific selector */
   display: none;
 }
 
 .sidebar .search {
-  /* More specific selector */
   display: flex;
   align-items: center;
   margin: 10px 0;
@@ -88,16 +85,14 @@
 }
 
 .sidebar .search input {
-  /* More specific selector */
   border: none;
   margin-left: 10px;
   border-radius: 5px;
-  background: var(--surface-color); /* Use variable for surface color */
-  color: var(--default-color); /* Use variable for default color */
+  background: var(--surface-color);
+  color: var(--default-color);
 }
 
 .sidebar .routes {
-  /* More specific selector */
   margin-top: 15px;
   display: flex;
   flex-direction: column;
@@ -105,70 +100,56 @@
 }
 
 .sidebar .link {
-  /* More specific selector */
   display: flex;
-  color: var(--default-color); /* Use variable for default color */
+  color: var(--default-color);
   gap: 10px;
   padding: 5px 10px;
   border-right: 4px solid transparent;
-  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
-  text-decoration: none; /*remove underline from NavLink */
+  text-decoration: none;
+  align-items: center; /* Vertically center icon and text */
 }
 
 .sidebar .link:hover {
-  /* More specific selector */
-  border-right: 4px solid var(--accent-color); /* Use variable for accent color */
-  background: rgba(
-    0,
-    0,
-    0,
-    0.1
-  ); /* Slightly darken on hover, adjust opacity as needed */
-  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  border-right: 4px solid var(--accent-color);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .sidebar .link.active {
-  /* More specific selector */
-  border-right: 4px solid var(--accent-color); /* Use variable for accent color */
-  background: rgba(
-    0,
-    0,
-    0,
-    0.1
-  ); /* Slightly darken when active, adjust opacity as needed */
+  border-right: 4px solid var(--accent-color);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .link .icon {
+  /* Style the icon */
+  font-size: 1.2em; /* Adjust size as needed */
+  color: var(--text-color); /* Consistent text color */
 }
 
 .sidebar .link_text {
-  /* More specific selector */
   white-space: nowrap;
   font-size: 15px;
-  color: var(--default-color); /* Use variable for default color */
+  color: var(--text-color);
 }
 
 .sidebar .menu {
-  /* More specific selector */
   display: flex;
-  color: var(--default-color); /* Use variable for default color */
+  color: var(--default-color);
   padding: 5px 10px;
   border-right: 4px solid transparent;
-  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
   justify-content: space-between;
 }
 
 .sidebar .menu_item {
-  /* More specific selector */
   display: flex;
   gap: 10px;
 }
 
 .sidebar .menu_container {
-  /* More specific selector */
   display: flex;
   flex-direction: column;
 }
 
 .sidebar .menu_container .link {
-  /* More specific selector */
   padding-left: 20px;
   border-bottom: rgba(255, 255, 255, 0.2) 0.5px solid;
 }
@@ -176,17 +157,20 @@
 /* Main Content */
 main {
   transition: margin-left 0.3s ease;
+  padding: 20px; /* Add padding for better content spacing */
 }
 
-.sidebar:hover ~ main {
-  margin-left: 200px; /* Adjust based on open sidebar width */
+@media (min-width: 769px) {
+  main {
+    margin-left: 200px; /* Keep content shifted when sidebar is open */
+  }
 }
 
 /* Mobile Menu Toggle Button */
 .mobile-menu-toggle {
   position: fixed;
-  top: -80px; /* Position in the top corner */
-  left: 0; /* Position in the top corner */
+  top: 10px; /* Position in the top corner */
+  left: 10px; /* Position in the top corner */
   z-index: 1001; /* Ensure it's above the sidebar */
   background: rgba(255, 255, 255, 0.8); /* Optional: Add a background */
   border-radius: 5px;
@@ -203,23 +187,13 @@ main {
   color: var(--default-color);
 }
 
-.mobile-menu-toggle .close-menu,
-.mobile-menu-toggle .hamburger-menu {
-  position: absolute;
-  top: 90px;
-  left: 10px;
-  background: rgba(255, 255, 255, 0.8); /* Optional: Add a background */
-  border-radius: 5px;
-  padding: 5px;
-  cursor: pointer;
-  display: flex; /* Use flexbox for alignment */
-  align-items: center; /* Center items vertically */
-  justify-content: center; /* Center items horizontally */
-}
-
 @media (min-width: 769px) {
   /* Hide on larger screens */
   .mobile-menu-toggle {
     display: none;
+  }
+
+  main {
+    margin-left: 200px; /* Keep content shifted when sidebar is open */
   }
 }

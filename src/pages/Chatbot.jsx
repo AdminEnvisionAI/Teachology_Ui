@@ -593,7 +593,7 @@ function ChatBot() {
 
   return (
     <div className="d-flex chat-app">
-       <ToastContainer />
+      <ToastContainer />
       {/* Button to toggle the offcanvas sidebar (only in mobile view) */}
       {isMobileView && (
         <button
@@ -607,15 +607,6 @@ function ChatBot() {
         </button>
       )}
 
-      <ChatSidebar
-        onNewChat={handleNewChat}
-        chatHistory={chats}
-        onSelectChat={handleChatSelect}
-        selectedChatIndex={currentChatId}
-        isMobileView={isMobileView}
-        handleDeleteChat={handleDeleteChat}
-        handleClearChat={handleClearChat}
-      />
       <main className="flex-grow-1 d-flex flex-column position-relative main-content">
         {currentChatId === null ? (
           <div
@@ -643,6 +634,16 @@ function ChatBot() {
           fileInputRef={fileInputRef}
         />
       </main>
+
+      <ChatSidebar
+        onNewChat={handleNewChat}
+        chatHistory={chats}
+        onSelectChat={handleChatSelect}
+        selectedChatIndex={currentChatId}
+        isMobileView={isMobileView}
+        handleDeleteChat={handleDeleteChat}
+        handleClearChat={handleClearChat}
+      />
     </div>
   );
 }
