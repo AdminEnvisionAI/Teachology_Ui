@@ -22,6 +22,11 @@ const routes = [
     name: "Output History",
     icon: <AiFillHeart />,
   },
+  {
+    path: "/upgrade",
+    name: "Upgrade",
+    icon: <AiFillHeart />,
+  },
 ];
 
 const SideBar = ({ children }) => {
