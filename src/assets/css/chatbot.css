@@ -217,13 +217,13 @@
 /* Media query for smaller screens (e.g., tablets and phones) */
 @media (max-width: 768px) {
   .chat-display {
-    max-height: 500px; /* Adjust for smaller screens */
+    max-height: 700px; /* Adjust for smaller screens */
   }
 }
 
 /* Further adjustments for even smaller screens (phones) */
 @media (max-width: 480px) {
   .chat-display {
-    max-height: 500px; /* Fine-tune for phones */
+    max-height: 700px; /* Fine-tune for phones */
   }
 }
