@@ -119,10 +119,6 @@ function AuthProvider({ children }) {
     validateToken(); // Call the token validation function on mount
   }, [dispatch]);  // Dependency array includes dispatch
 
-  // useEffect(() => {
-  //   localStorage.setItem("isLoggedIn", isLoggedIn.toString());
-  // }, [isLoggedIn]);
-
   useEffect(() => {
       setIsLoggedIn(!!user); // Update isLoggedIn when user changes in Redux.
   }, [user]);

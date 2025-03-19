@@ -55,8 +55,23 @@
       {
         "name": "gradeLevel",
         "label": "Grade Level *",
-        "type": "text",
-        "placeholder": "Enter grade level (e.g., 9th grade)"
+        "type": "select",
+        "options": [
+          "LKG",
+          "UKG",
+          "1st Grade",
+          "2nd Grade",
+          "3rd Grade",
+          "4th Grade",
+          "5th Grade",
+          "6th Grade",
+          "7th Grade",
+          "8th Grade",
+          "9th Grade",
+          "10th Grade",
+          "11th Grade",
+          "12th Grade"
+        ]
       },
       {
         "name": "pointScale",
@@ -87,8 +102,23 @@
       {
         "name": "gradeLevel",
         "label": "Grade Level *",
-        "type": "text",
-        "placeholder": "Enter grade level (e.g., 9th grade)"
+        "type": "select",
+        "options": [
+          "LKG",
+          "UKG",
+          "1st Grade",
+          "2nd Grade",
+          "3rd Grade",
+          "4th Grade",
+          "5th Grade",
+          "6th Grade",
+          "7th Grade",
+          "8th Grade",
+          "9th Grade",
+          "10th Grade",
+          "11th Grade",
+          "12th Grade"
+        ]
       },
       {
         "name": "assignmentDescription",
@@ -119,8 +149,23 @@
       {
         "name": "gradeLevel",
         "label": "Grade Level *",
-        "type": "text",
-        "placeholder": "Enter grade level (e.g., 9th grade)"
+        "type": "select",
+        "options": [
+          "LKG",
+          "UKG",
+          "1st Grade",
+          "2nd Grade",
+          "3rd Grade",
+          "4th Grade",
+          "5th Grade",
+          "6th Grade",
+          "7th Grade",
+          "8th Grade",
+          "9th Grade",
+          "10th Grade",
+          "11th Grade",
+          "12th Grade"
+        ]
       },
       {
         "name": "numberOfQuestions",

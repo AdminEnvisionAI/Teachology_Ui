@@ -192,6 +192,78 @@ const ToolDetail = () => {
     dispatch(updateFormData({ name: name, value: value }));
   };
 
+  // Define base styles
+  const baseSelectStyles = {
+    control: (styles) => ({
+      ...styles,
+      backgroundColor: "white",
+      color: "#495057",
+      fontSize: "0.9rem",
+      border: "1px solid #ced4da",
+      borderRadius: "5px",
+      minHeight: "38px",
+      display: "flex",
+      alignItems: "center",
+      transition: "border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out",
+      ":hover": {
+        borderColor: "#2962ff",
+      },
+      ":focus": {
+        borderColor: "#2962ff",
+        boxShadow: "0 0 0 0.2rem rgba(41, 98, 255, 0.25)",
+      },
+    }),
+    placeholder: (styles) => ({
+      ...styles,
+      color: "#6c757d",
+      fontSize: "0.9rem",
+    }),
+    singleValue: (styles) => ({
+      ...styles,
+      color: "#495057",
+      fontSize: "0.9rem",
+    }),
+    indicatorSeparator: (styles) => ({
+      display: "none",
+    }),
+    dropdownIndicator: (styles) => ({
+      ...styles,
+      color: "#6c757d",
+    }),
+    menu: (styles) => ({
+      ...styles,
+      backgroundColor: "white",
+      color: "#495057",
+      border: "1px solid #ced4da",
+      borderRadius: "5px",
+      fontSize: "0.9rem",
+      zIndex: 2,
+    }),
+    menuList: (styles) => ({
+      ...styles,
+      padding: 0,
+    }),
+    option: (styles, { isFocused, isSelected }) => ({
+      ...styles,
+      backgroundColor: isFocused
+        ? "#f8f9fa"
+        : isSelected
+        ? "#2962ff"
+        : "white",
+      color: isFocused
+        ? "#495057"
+        : isSelected
+        ? "white"
+        : "#495057",
+      padding: "0.5rem 1rem",
+      cursor: "pointer",
+      ":hover": {
+        backgroundColor: "#f8f9fa",
+        color: "#495057",
+      },
+    }),
+  };
+
   if (!tool) {
     return <div className="loading-message">Loading... or Tool not found.</div>;
   }
@@ -277,6 +349,7 @@ const ToolDetail = () => {
                             .find((opt) => opt.value === formData[field.name]) ||
                           null
                         }
+                        styles={baseSelectStyles} // Apply the styles here
                       />
                     ) : (
                       <input
